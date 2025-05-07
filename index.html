@@ -1,40 +1,74 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plano de Ação - Programa Especial de Saúde do Rio Doce</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
 
   <div class="section">
+    <h2>Informações Iniciais</h2>
     <label>Nome:</label>
     <input type="text" name="nome">
-
     <label>Cargo:</label>
     <input type="text" name="cargo">
-
     <label>Unidade da Federação:</label>
-    <select name="uf" id="uf" onchange="loadMunicipios()">
+    <select name="uf" onchange="updateMunicipios(this.value)">
       <option value="">Selecione</option>
       <option value="DF">DF</option>
       <option value="ES">ES</option>
       <option value="MG">MG</option>
     </select>
-
     <label>Município:</label>
-    <select name="municipio" id="municipio">
+    <select name="municipio" id="municipio-select">
       <option value="">Selecione a UF primeiro</option>
     </select>
   </div>
 
-  <div id="eixos"></div>
+  <div class="section">
+    <h2 onclick="toggleAccordion('eixo1')">Eixo 1 – Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
+    <div class="accordion" id="eixo1">
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion('acao1')">Ação 1</div>
+        <div class="accordion-body" id="acao1">
+          <label>Identificação do Problema:</label>
+          <textarea></textarea>
+          <label>Nome da ação:</label>
+          <input type="text">
+          <label>Descrição da ação:</label>
+          <textarea></textarea>
+          <label>Objetivos:</label>
+          <textarea></textarea>
+          <label>Itens previstos:</label>
+          <input type="text">
+          <label>Tipo da Ação:</label>
+          <select><option>Investimento</option><option>Custeio</option></select>
+          <label>Orçamento previsto:</label>
+          <input type="number">
+          <label>Data de início:</label>
+          <input type="date">
+          <label>Data de conclusão:</label>
+          <input type="date">
+          <label>Indicador:</label>
+          <input type="text">
+          <label>Meta:</label>
+          <input type="text">
+          <label>Observações:</label>
+          <textarea></textarea>
+        </div>
+      </div>
+      <button class="add-action" onclick="addAction('eixo1')">Adicionar nova ação</button>
+    </div>
+  </div>
 
-  <button id="generate-pdf">Gerar PDF</button>
+  <!-- Replicar o código acima para outros Eixos -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="script.js"></script>
+  <button id="generate-pdf" onclick="window.print()">Gerar PDF</button>
+
+  <script src="scripts.js"></script>
 </body>
 </html>
