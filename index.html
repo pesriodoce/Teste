@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plano de Ação - Programa Especial de Saúde do Rio Doce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
+
+  <div class="section">
+    <label>Nome:</label>
+    <input type="text" name="nome">
+
+    <label>Cargo:</label>
+    <input type="text" name="cargo">
+
+    <label>Unidade da Federação:</label>
+    <select name="uf" id="uf" onchange="loadMunicipios()">
+      <option value="">Selecione</option>
+      <option value="DF">DF</option>
+      <option value="ES">ES</option>
+      <option value="MG">MG</option>
+    </select>
+
+    <label>Município:</label>
+    <select name="municipio" id="municipio">
+      <option value="">Selecione a UF primeiro</option>
+    </select>
+  </div>
+
+  <div id="eixos"></div>
+
+  <button id="generate-pdf">Gerar PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
