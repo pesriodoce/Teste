@@ -1,4 +1,4 @@
-cd "C:/caminho/para/sua/pasta"
+cd "C:\Users\Tiago\Documents\plano-acao-saude-rio-doce"
 git init
 git add .
 git commit -m "Adiciona formulário do Plano de Ação"
