@@ -3,5 +3,5 @@ git init
 git add .
 git commit -m "Adiciona formulário do Plano de Ação"
 git branch -M main
-git remote add origin https://github.com/pesriodoce/teste.git
+git remote add origin https://github.com/pesriodoce/Teste.git
 git push -u origin main
