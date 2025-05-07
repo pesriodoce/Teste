@@ -1,63 +1,125 @@
-const municipios = {
-  MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
-  ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
-  DF: ["Brasília"]
-};
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 20px;
+  background: #f4f7fa;
+  color: #333;
+}
 
-function updateMunicipios(uf) {
-  const select = document.getElementById("municipio-select");
-  select.innerHTML = "";
-  if (municipios[uf]) {
-    municipios[uf].forEach(m => {
-      const option = document.createElement("option");
-      option.value = m;
-      option.textContent = m;
-      select.appendChild(option);
-    });
-  } else {
-    const option = document.createElement("option");
-    option.textContent = "Selecione a UF primeiro";
-    select.appendChild(option);
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
+
+h2 {
+  background: #3498db;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.section {
+  margin-bottom: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.accordion-item {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #2980b9;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.accordion-header {
+  background: #ecf0f1;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+}
+
+.accordion-body {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #ccc;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.add-action {
+  background: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.add-action:hover {
+  background: #21618c;
+}
+
+#generate-pdf {
+  background: #27ae60;
+  display: block;
+  margin: 40px auto 0;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+#generate-pdf:hover {
+  background: #1e8449;
+}
+
+@media print {
+  .accordion-header {
+    font-size: 16px;
+    background: none;
+    border: none;
+    font-weight: bold;
+    padding: 8px 0;
   }
-}
-
-function toggleAccordion(id) {
-  const body = document.getElementById(id);
-  body.style.display = body.style.display === 'block' ? 'none' : 'block';
-}
-
-function addAction(eixoId) {
-  const eixo = document.getElementById(eixoId);
-  const newAction = document.createElement('div');
-  newAction.classList.add('accordion-item');
-  newAction.innerHTML = `
-    <div class="accordion-header" onclick="toggleAccordion('acao${eixoId}novo')">Nova Ação</div>
-    <div class="accordion-body" id="acao${eixoId}novo">
-      <label>Identificação do Problema:</label>
-      <textarea></textarea>
-      <label>Nome da ação:</label>
-      <input type="text">
-      <label>Descrição da ação:</label>
-      <textarea></textarea>
-      <label>Objetivos:</label>
-      <textarea></textarea>
-      <label>Itens previstos:</label>
-      <input type="text">
-      <label>Tipo da Ação:</label>
-      <select><option>Investimento</option><option>Custeio</option></select>
-      <label>Orçamento previsto:</label>
-      <input type="number">
-      <label>Data de início:</label>
-      <input type="date">
-      <label>Data de conclusão:</label>
-      <input type="date">
-      <label>Indicador:</label>
-      <input type="text">
-      <label>Meta:</label>
-      <input type="text">
-      <label>Observações:</label>
-      <textarea></textarea>
-    </div>
-  `;
-  eixo.appendChild(newAction);
+  .accordion-body {
+    display: block !important;
+    padding: 0;
+  }
+  button, .add-action {
+    display: none !important;
+  }
+  .accordion-item {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+  }
 }
