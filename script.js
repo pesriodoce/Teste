@@ -1,122 +1,125 @@
-const eixos = [
-  'Eixo 1 – Fortalecimento e ampliação dos serviços de Atenção à Saúde',
-  'Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde',
-  'Eixo 3 – Fortalecimento, ampliação e melhorias da infraestrutura de saúde',
-  'Eixo 4 - Melhoria das práticas de gestão em saúde',
-  'Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital',
-  'Eixo 6 - Formação e educação permanente'
-];
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 20px;
+  background: #f4f7fa;
+  color: #333;
+}
 
-const municipios = {
-  DF: ['Brasília'],
-  ES: ['Anchieta', 'Aracruz', 'Baixo Guandu', 'Colatina', 'Conceição da Barra', 'Fundão', 'Linhares', 'Marilândia', 'São Mateus', 'Serra', 'Sooretama'],
-  MG: ['Aimorés', 'Alpercata', 'Barra Longa', 'Belo Oriente', 'Bom Jesus do Galho', 'Bugre', 'Caratinga', 'Conselheiro Pena', 'Coronel Fabriciano', 'Córrego Novo', 'Dionísio', 'Fernandes Tourinho', 'Galiléia', 'Governador Valadares', 'Iapu', 'Ipaba', 'Ipatinga', 'Itueta', 'Mariana', 'Marliéria', 'Naque', 'Ouro Preto', 'Periquito', 'Pingo D’água', 'Ponte Nova', 'Raul Soares', 'Resplendor', 'Rio Casca', 'Rio Doce', 'Santa Cruz do Escalvado', 'Santana do Paraíso', 'São Domingos do Prata', 'São José do Goiabal', 'São Pedro dos Ferros', 'Sem Peixe', 'Sobrália', 'Timóteo', 'Tumiritinga']
-};
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
 
-function loadMunicipios() {
-  const uf = document.getElementById('uf').value;
-  const municipioSelect = document.getElementById('municipio');
-  municipioSelect.innerHTML = '';
-  if (municipios[uf]) {
-    municipios[uf].forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m;
-      opt.textContent = m;
-      municipioSelect.appendChild(opt);
-    });
-  } else {
-    const opt = document.createElement('option');
-    opt.value = '';
-    opt.textContent = 'Selecione a UF primeiro';
-    municipioSelect.appendChild(opt);
+h2 {
+  background: #3498db;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.section {
+  margin-bottom: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.accordion-item {
+  background: #ffffff;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 4px solid #2980b9;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.accordion-header {
+  background: #ecf0f1;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+}
+
+.accordion-body {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #ccc;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.add-action {
+  background: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.add-action:hover {
+  background: #21618c;
+}
+
+#generate-pdf {
+  background: #27ae60;
+  display: block;
+  margin: 40px auto 0;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+#generate-pdf:hover {
+  background: #1e8449;
+}
+
+@media print {
+  .accordion-header {
+    font-size: 16px;
+    background: none;
+    border: none;
+    font-weight: bold;
+    padding: 8px 0;
+  }
+  .accordion-body {
+    display: block !important;
+    padding: 0;
+  }
+  button, .add-action {
+    display: none !important;
+  }
+  .accordion-item {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
   }
 }
-
-function createEixo(index, title) {
-  const container = document.createElement('div');
-  container.className = 'section';
-
-  const header = document.createElement('h2');
-  header.textContent = title;
-  header.onclick = () => {
-    content.classList.toggle('hidden');
-  };
-
-  const content = document.createElement('div');
-  content.className = 'hidden';
-
-  const addBtn = document.createElement('button');
-  addBtn.textContent = 'Adicionar Ação';
-  addBtn.onclick = () => content.appendChild(createAcao(index));
-
-  content.appendChild(addBtn);
-  container.appendChild(header);
-  container.appendChild(content);
-  return container;
-}
-
-function createAcao(eixoIndex) {
-  const div = document.createElement('div');
-  div.className = 'action';
-
-  div.innerHTML = `
-    <label>Identificação do Problema:</label>
-    <textarea></textarea>
-
-    <label>Nome da Ação:</label>
-    <input type="text">
-
-    <label>Descrição da Ação:</label>
-    <textarea></textarea>
-
-    <label>Objetivos:</label>
-    <textarea></textarea>
-
-    <label>Itens previstos:</label>
-    <input type="text">
-
-    <label>Tipo da Ação:</label>
-    <select>
-      <option value="">Selecione</option>
-      <option value="Investimento">Investimento</option>
-      <option value="Custeio">Custeio</option>
-    </select>
-
-    <label>Orçamento previsto (R$):</label>
-    <input type="number">
-
-    <label>Data de início:</label>
-    <input type="date">
-
-    <label>Data de conclusão:</label>
-    <input type="date">
-
-    <label>Indicador:</label>
-    <input type="text">
-
-    <label>Meta:</label>
-    <input type="text">
-
-    <label>Observações:</label>
-    <textarea></textarea>
-  `;
-
-  return div;
-}
-
-const eixosContainer = document.getElementById('eixos');
-eixos.forEach((eixo, i) => {
-  eixosContainer.appendChild(createEixo(i, eixo));
-});
-
-document.getElementById('generate-pdf').addEventListener('click', () => {
-  const element = document.body;
-  const opt = {
-    margin: 0.5,
-    filename: 'plano-de-acao.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(element).save();
-});
