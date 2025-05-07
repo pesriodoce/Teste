@@ -26,17 +26,21 @@ function toggleAccordion(id) {
   body.style.display = body.style.display === 'block' ? 'none' : 'block';
 }
 
+let actionCount = 0;
+
 function addAction(eixoId) {
+  actionCount++;
   const eixo = document.getElementById(eixoId);
+  const newId = `acao${eixoId}_${actionCount}`;
   const newAction = document.createElement('div');
   newAction.classList.add('accordion-item');
   newAction.innerHTML = `
-    <div class="accordion-header" onclick="toggleAccordion('acao${eixoId}novo')">Nova Ação</div>
-    <div class="accordion-body" id="acao${eixoId}novo">
+    <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
+    <div class="accordion-body" id="${newId}">
       <label>Identificação do Problema:</label>
       <textarea></textarea>
       <label>Nome da ação:</label>
-      <input type="text">
+      <input type="text" oninput="document.getElementById('header_${newId}').innerText = this.value || 'Nova Ação'">
       <label>Descrição da ação:</label>
       <textarea></textarea>
       <label>Objetivos:</label>
@@ -46,7 +50,7 @@ function addAction(eixoId) {
       <label>Tipo da Ação:</label>
       <select><option>Investimento</option><option>Custeio</option></select>
       <label>Orçamento previsto:</label>
-      <input type="number">
+      <input type="text" id="orcamento_${newId}" class="orcamento">
       <label>Data de início:</label>
       <input type="date">
       <label>Data de conclusão:</label>
@@ -60,4 +64,18 @@ function addAction(eixoId) {
     </div>
   `;
   eixo.appendChild(newAction);
+  toggleAccordion(newId);
+  Inputmask({ mask: 'R$ 999.999.999,99', placeholder: '' }).mask(`#orcamento_${newId}`);
+}
+
+function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.html(document.body, {
+    callback: function (doc) {
+      doc.save('plano_de_acao.pdf');
+    },
+    x: 10,
+    y: 10
+  });
 }
