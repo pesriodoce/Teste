@@ -40,7 +40,7 @@ function addAction(eixoId) {
       <label>Identificação do Problema:</label>
       <textarea></textarea>
       <label>Nome da ação:</label>
-      <input type="text" oninput="document.getElementById('header_${newId}').innerText = this.value || 'Nova Ação'">
+      <input type="text">
       <label>Descrição da ação:</label>
       <textarea></textarea>
       <label>Objetivos:</label>
@@ -64,13 +64,13 @@ function addAction(eixoId) {
     </div>
   `;
   eixo.appendChild(newAction);
-  // Aplica a máscara de moeda automaticamente
   const inputBudget = document.getElementById(`budget-${newId}`);
-  inputBudget.addEventListener('input', function() {
+  inputBudget.addEventListener('input', function () {
     let value = inputBudget.value.replace(/\D/g, '');
     value = value.replace(/(\d)(\d{2})$/, '$1,$2');
     inputBudget.value = value ? 'R$ ' + value : '';
   });
+  toggleAccordion(newId);
 }
 
 function generatePDF() {
