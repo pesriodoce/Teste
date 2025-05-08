@@ -1,76 +1,107 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const eixos = [
-    "Fortalecimento e ampliação dos serviços de Atenção à Saúde",
-    "Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde",
-    "Fortalecimento, ampliação e melhorias da infraestrutura de saúde",
-    "Melhoria das práticas de gestão em saúde",
-    "Ações de inteligência e ciências de dados e serviços de saúde digital",
-    "Formação e educação permanente"
-  ];
-
-  const container = document.getElementById("eixos-container");
-
-  eixos.forEach((titulo, i) => {
-    const eixoId = `eixo${i + 1}`;
-    const section = document.createElement("div");
-    section.className = "section";
-    section.innerHTML = `
-      <h2 onclick="toggleAccordion('${eixoId}')">Eixo ${i + 1} - ${titulo}</h2>
-      <div class="accordion" id="${eixoId}"></div>
-      <button class="add-action" onclick="addAction('${eixoId}')">
-        <i class="fas fa-plus-circle"></i> Adicionar nova ação
-      </button>
-    `;
-    container.appendChild(section);
-  });
-});
-
-function addAction(eixoId) {
-  const eixoDiv = document.getElementById(eixoId);
-  const actionDiv = document.createElement("div");
-  actionDiv.classList.add("action");
-
-  actionDiv.innerHTML = `
-    <label>Descrição da ação</label>
-    <input type="text" placeholder="Descreva a ação">
-    <label>Meta</label>
-    <input type="text" placeholder="Informe a meta">
-    <label>Indicadores</label>
-    <input type="text" placeholder="Informe os indicadores">
-    <label>Responsável</label>
-    <input type="text" placeholder="Nome do responsável">
-    <label>Cronograma</label>
-    <input type="text" placeholder="Ex: Jan 2025 - Dez 2025">
-    <label>Orçamento estimado</label>
-    <input type="text" placeholder="R$ 0,00">
-    <button onclick="this.parentElement.remove()">Remover</button>
-  `;
-
-  eixoDiv.appendChild(actionDiv);
-  actionDiv.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function toggleAccordion(eixoId) {
-  const eixoDiv = document.getElementById(eixoId);
-  eixoDiv.style.display = eixoDiv.style.display === 'block' ? 'none' : 'block';
-}
+const municipios = {
+  MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
+  ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
+  DF: ["Brasília"]
+};
 
 function updateMunicipios(uf) {
-  const municipioSelect = document.getElementById("municipio-select");
-  municipioSelect.innerHTML = '<option value="">Selecione a UF primeiro</option>';
-
-  const municipios = {
-    'DF': ['Brasília'],
-    'ES': ['Vitória', 'Vila Velha', 'Serra'],
-    'MG': ['Belo Horizonte', 'Uberlândia', 'Juiz de Fora']
-  };
-
+  const select = document.getElementById("municipio-select");
+  select.innerHTML = "";
   if (municipios[uf]) {
     municipios[uf].forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m;
-      opt.textContent = m;
-      municipioSelect.appendChild(opt);
+      const option = document.createElement("option");
+      option.value = m;
+      option.textContent = m;
+      select.appendChild(option);
     });
+  } else {
+    const option = document.createElement("option");
+    option.textContent = "Selecione a UF primeiro";
+    select.appendChild(option);
   }
+}
+
+function toggleAccordion(id) {
+  const target = document.getElementById(id);
+  const all = document.querySelectorAll(".accordion-body");
+  all.forEach(el => {
+    if (el.id !== id) el.style.display = "none";
+  });
+  target.style.display = target.style.display === "block" ? "none" : "block";
+}
+
+let actionCount = 0;
+
+function addAction(eixoId) {
+  actionCount++;
+  const eixo = document.getElementById(eixoId);
+  const newId = `acao${eixoId}_${actionCount}`;
+  const newAction = document.createElement("div");
+  newAction.classList.add("accordion-item");
+  newAction.innerHTML = `
+    <div class="accordion-header" onclick="toggleAccordion('${newId}')" id="header_${newId}">Nova Ação</div>
+    <div class="accordion-body" id="${newId}">
+      <label>Identificação do Problema:</label>
+      <textarea></textarea>
+      <label>Nome da ação:</label>
+      <input type="text" oninput="document.getElementById('header_${newId}').innerText = this.value || 'Nova Ação'">
+      <label>Descrição da ação:</label>
+      <textarea></textarea>
+      <label>Objetivos:</label>
+      <textarea></textarea>
+      <label>Itens previstos:</label>
+      <input type="text">
+      <label>Tipo da Ação:</label>
+      <select><option>Investimento</option><option>Custeio</option></select>
+      <label>Orçamento previsto:</label>
+      <input type="text" class="masked-currency" id="budget-${newId}">
+      <label>Data de início:</label>
+      <input type="date">
+      <label>Data de conclusão:</label>
+      <input type="date">
+      <label>Indicador:</label>
+      <input type="text">
+      <label>Meta:</label>
+      <input type="text">
+      <label>Observações:</label>
+      <textarea></textarea>
+    </div>`;
+  eixo.appendChild(newAction);
+  const inputBudget = document.getElementById(`budget-${newId}`);
+  inputBudget.addEventListener("input", function () {
+    let value = inputBudget.value.replace(/\D/g, "");
+    value = value.replace(/(\d)(\d{2})$/, "$1,$2");
+    inputBudget.value = value ? "R$ " + value : "";
+  });
+  toggleAccordion(newId);
+  document.getElementById(newId).scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function generatePDF() {
+  const date = new Date().toLocaleDateString();
+  const sections = document.querySelectorAll(".section");
+  let content = '<h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>';
+  sections.forEach(section => {
+    const title = section.querySelector("h2")?.textContent || "";
+    const actions = section.querySelectorAll(".accordion-body");
+    if (actions.length > 0) {
+      content += `<h2>${title}</h2>`;
+      actions.forEach((body, index) => {
+        const fields = body.querySelectorAll("input, select, textarea");
+        content += `<div style="border:1px dashed #aaa; padding:10px; margin:10px 0;">`;
+        content += `<h3>Ação ${index + 1}</h3><ul>`;
+        fields.forEach(field => {
+          const label = field.previousElementSibling?.textContent || field.name;
+          const value = field.value || "Não preenchido";
+          content += `<li><strong>${label}</strong>: ${value}</li>`;
+        });
+        content += "</ul></div>";
+      });
+    }
+  });
+  content += `<footer style="margin-top:30px; border-top:1px solid #ccc; padding-top:10px; font-size:12px; text-align:center;">Programa Especial de Saúde do Rio Doce – Emitido em ${date}</footer>`;
+  const pdfWindow = window.open("", "_blank");
+  pdfWindow.document.write(`<html><head><title>PDF</title></head><body>${content}</body></html>`);
+  pdfWindow.document.close();
+  pdfWindow.print();
 }
