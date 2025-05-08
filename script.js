@@ -1,63 +1,108 @@
-const municipios = {
-  MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
-  ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
-  DF: ["Brasília"]
-};
-
+// Função para atualizar os municípios com base na UF selecionada
 function updateMunicipios(uf) {
-  const select = document.getElementById("municipio-select");
-  select.innerHTML = "";
-  if (municipios[uf]) {
-    municipios[uf].forEach(m => {
-      const option = document.createElement("option");
-      option.value = m;
-      option.textContent = m;
-      select.appendChild(option);
+  const municipioSelect = document.getElementById('municipio-select');
+  municipioSelect.innerHTML = ''; // Limpar as opções atuais
+
+  const municipios = {
+    'DF': ['Brasília'],
+    'ES': ['Vitória', 'Vila Velha', 'Serra'],
+    'MG': ['Belo Horizonte', 'Uberlândia', 'Juiz de Fora']
+  };
+
+  if (uf && municipios[uf]) {
+    municipios[uf].forEach(municipio => {
+      const option = document.createElement('option');
+      option.value = municipio;
+      option.textContent = municipio;
+      municipioSelect.appendChild(option);
     });
   } else {
-    const option = document.createElement("option");
-    option.textContent = "Selecione a UF primeiro";
-    select.appendChild(option);
+    const option = document.createElement('option');
+    option.value = '';
+    option.textContent = 'Selecione a UF primeiro';
+    municipioSelect.appendChild(option);
   }
 }
 
-function toggleAccordion(id) {
-  const body = document.getElementById(id);
-  body.style.display = body.style.display === 'block' ? 'none' : 'block';
+// Função para expandir ou recolher os eixos (accordion)
+function toggleAccordion(eixoId) {
+  const eixo = document.getElementById(eixoId);
+  const isExpanded = eixo.style.display === 'block';
+  eixo.style.display = isExpanded ? 'none' : 'block';
 }
 
+// Função para adicionar uma nova ação em cada eixo
 function addAction(eixoId) {
   const eixo = document.getElementById(eixoId);
+
+  // Criar um novo item de ação
   const newAction = document.createElement('div');
-  newAction.classList.add('accordion-item');
+  newAction.classList.add('action');
+
+  // Adicionar campos para a ação
   newAction.innerHTML = `
-    <div class="accordion-header" onclick="toggleAccordion('acao${eixoId}novo')">Nova Ação</div>
-    <div class="accordion-body" id="acao${eixoId}novo">
-      <label>Identificação do Problema:</label>
-      <textarea></textarea>
-      <label>Nome da ação:</label>
-      <input type="text">
-      <label>Descrição da ação:</label>
-      <textarea></textarea>
-      <label>Objetivos:</label>
-      <textarea></textarea>
-      <label>Itens previstos:</label>
-      <input type="text">
-      <label>Tipo da Ação:</label>
-      <select><option>Investimento</option><option>Custeio</option></select>
-      <label>Orçamento previsto:</label>
-      <input type="number">
-      <label>Data de início:</label>
-      <input type="date">
-      <label>Data de conclusão:</label>
-      <input type="date">
-      <label>Indicador:</label>
-      <input type="text">
-      <label>Meta:</label>
-      <input type="text">
-      <label>Observações:</label>
-      <textarea></textarea>
-    </div>
+    <label for="descricao">Descrição da Ação:</label>
+    <input type="text" name="descricao" placeholder="Descrição da ação">
+    <label for="responsavel">Responsável:</label>
+    <input type="text" name="responsavel" placeholder="Responsável pela ação">
+    <label for="prazo">Prazo:</label>
+    <input type="date" name="prazo">
   `;
+
+  // Adicionar a nova ação ao eixo
   eixo.appendChild(newAction);
+}
+
+// Função para gerar o PDF do plano de ação
+function generatePDF() {
+  const doc = new jsPDF();
+
+  // Adicionar título
+  doc.setFont('Helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text(20, 20, 'Plano de Ação do Programa Especial de Saúde do Rio Doce');
+
+  // Captura as informações do formulário
+  const nome = document.querySelector('input[name="nome"]').value;
+  const cargo = document.querySelector('input[name="cargo"]').value;
+  const uf = document.querySelector('select[name="uf"]').value;
+  const municipio = document.querySelector('select[name="municipio"]').value;
+
+  // Adicionar as informações iniciais ao PDF
+  doc.setFontSize(12);
+  doc.text(20, 30, `Nome: ${nome}`);
+  doc.text(20, 40, `Cargo: ${cargo}`);
+  doc.text(20, 50, `Unidade da Federação: ${uf}`);
+  doc.text(20, 60, `Município: ${municipio}`);
+
+  // Adicionar os eixos e as ações
+  const eixos = ['eixo1', 'eixo2', 'eixo3', 'eixo4', 'eixo5', 'eixo6'];
+  let yPosition = 70;
+
+  eixos.forEach(eixoId => {
+    const eixo = document.getElementById(eixoId);
+    const eixoTitle = document.querySelector(`h2[onclick="toggleAccordion('${eixoId}')"]`).textContent;
+
+    doc.setFont('Helvetica', 'bold');
+    doc.text(20, yPosition, eixoTitle);
+    yPosition += 10;
+
+    const actions = eixo.getElementsByClassName('action');
+    Array.from(actions).forEach(action => {
+      const descricao = action.querySelector('input[name="descricao"]').value;
+      const responsavel = action.querySelector('input[name="responsavel"]').value;
+      const prazo = action.querySelector('input[name="prazo"]').value;
+
+      doc.setFont('Helvetica', 'normal');
+      doc.text(20, yPosition, `Descrição: ${descricao}`);
+      doc.text(20, yPosition + 10, `Responsável: ${responsavel}`);
+      doc.text(20, yPosition + 20, `Prazo: ${prazo}`);
+      yPosition += 30;
+    });
+
+    yPosition += 20; // Espaço entre os eixos
+  });
+
+  // Salvar o PDF
+  doc.save('plano_de_acao.pdf');
 }
