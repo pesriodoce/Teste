@@ -1,89 +1,92 @@
-const municipiosPorUF = {
-  DF: ["Brasília"],
-  ES: ["Vitória", "Vila Velha", "Serra"],
-  MG: ["Belo Horizonte", "Governador Valadares", "Ipatinga"]
+const municipios = {
+  MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
+  ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
+  DF: ["Brasília"]
 };
 
 function updateMunicipios(uf) {
   const select = document.getElementById("municipio-select");
   select.innerHTML = "";
-  if (municipiosPorUF[uf]) {
-    municipiosPorUF[uf].forEach(m => {
+  if (municipios[uf]) {
+    municipios[uf].forEach(m => {
       const option = document.createElement("option");
-      option.value = option.textContent = m;
+      option.value = m;
+      option.textContent = m;
       select.appendChild(option);
     });
   } else {
     const option = document.createElement("option");
-    option.value = "";
     option.textContent = "Selecione a UF primeiro";
     select.appendChild(option);
   }
 }
 
-function collapseAllAccordions() {
-  document.querySelectorAll('.accordion-content').forEach(content => {
-    content.style.display = 'none';
-  });
-}
-
-function collapseAllAndAdd(eixoId) {
-  collapseAllAccordions();
-  addAcao(eixoId);
-}
-
 function toggleAccordion(id) {
-  const accordion = document.getElementById(id);
-  accordion.style.display = accordion.style.display === 'none' ? 'block' : 'none';
+  const body = document.getElementById(id);
+  body.style.display = body.style.display === 'block' ? 'none' : 'block';
 }
 
-function addAcao(eixoId) {
-  const accordion = document.getElementById(eixoId);
+let actionCount = 0;
 
-  const acaoIndex = accordion.children.length + 1;
-  const item = document.createElement('div');
-  item.className = 'accordion-item';
-
-  const header = document.createElement('div');
-  header.className = 'accordion-header';
-  header.textContent = `Ação ${acaoIndex}`;
-  header.onclick = () => {
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-  };
-
-  const content = document.createElement('div');
-  content.className = 'accordion-content';
-  content.style.display = 'block';
-  content.innerHTML = `
-    <label>Nome da ação:</label>
-    <input type="text" class="nome-acao" oninput="this.closest('.accordion-item').querySelector('.accordion-header').textContent = this.value || 'Ação ${acaoIndex}'">
-    <label>Descrição:</label>
-    <textarea></textarea>
-    <label>Data de Início:</label>
-    <input type="date">
-    <label>Data de Término:</label>
-    <input type="date">
-    <label>Orçamento previsto:</label>
-    <input type="text" class="masked-currency" oninput="formatCurrency(this)">
-    <div class="pdf-separator"></div>
+function addAction(eixoId) {
+  actionCount++;
+  const eixo = document.getElementById(eixoId);
+  const newId = `acao${eixoId}_${actionCount}`;
+  const newAction = document.createElement('div');
+  newAction.classList.add('accordion-item');
+  newAction.innerHTML = `
+    <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
+    <div class="accordion-body" id="${newId}">
+      <label>Identificação do Problema:</label>
+      <textarea></textarea>
+      <label>Nome da ação:</label>
+      <input type="text">
+      <label>Descrição da ação:</label>
+      <textarea></textarea>
+      <label>Objetivos:</label>
+      <textarea></textarea>
+      <label>Itens previstos:</label>
+      <input type="text">
+      <label>Tipo da Ação:</label>
+      <select><option>Investimento</option><option>Custeio</option></select>
+      <label>Orçamento previsto:</label>
+      <input type="text" class="masked-currency" id="budget-${newId}">
+      <label>Data de início:</label>
+      <input type="date">
+      <label>Data de conclusão:</label>
+      <input type="date">
+      <label>Indicador:</label>
+      <input type="text">
+      <label>Meta:</label>
+      <input type="text">
+      <label>Observações:</label>
+      <textarea></textarea>
+    </div>
   `;
-
-  item.appendChild(header);
-  item.appendChild(content);
-  accordion.appendChild(item);
-}
-
-function formatCurrency(input) {
-  let value = input.value.replace(/\D/g, "");
-  value = (parseInt(value, 10) / 100).toFixed(2);
-  input.value = `R$ ${value.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+  eixo.appendChild(newAction);
+  const inputBudget = document.getElementById(`budget-${newId}`);
+  inputBudget.addEventListener('input', function () {
+    let value = inputBudget.value.replace(/\D/g, '');
+    value = value.replace(/(\d)(\d{2})$/, '$1,$2');
+    inputBudget.value = value ? 'R$ ' + value : '';
+  });
+  toggleAccordion(newId);
 }
 
 function generatePDF() {
-  const originalTitle = document.title;
-  document.title = 'Plano_de_Acao';
-
-  window.print();
-
-  document.title = originalTitle;
+  const sections = document.querySelectorAll('.section');
+  let content = '<h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>';
+  sections.forEach(section => {
+    const title = section.querySelector('h2').textContent;
+    const inputs = section.querySelectorAll('input, select, textarea');
+    content += `<h2>${title}</h2><ul>`;
+    inputs.forEach(input => {
+      content += `<li><strong>${input.previousElementSibling ? input.previousElementSibling.textContent : input.tagName}</strong>: ${input.value || 'Não preenchido'}</li>`;
+    });
+    content += '</ul>';
+  });
+  const pdfWindow = window.open();
+  pdfWindow.document.write(content);
+  pdfWindow.document.close();
+  pdfWindow.print();
 }
