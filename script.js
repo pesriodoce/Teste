@@ -1,108 +1,101 @@
-// Função para atualizar os municípios com base na UF selecionada
+// Atualiza o select de municípios de acordo com a UF escolhida
 function updateMunicipios(uf) {
   const municipioSelect = document.getElementById('municipio-select');
-  municipioSelect.innerHTML = ''; // Limpar as opções atuais
+  municipioSelect.innerHTML = "<option value=''>Selecione a UF primeiro</option>";
 
-  const municipios = {
-    'DF': ['Brasília'],
-    'ES': ['Vitória', 'Vila Velha', 'Serra'],
-    'MG': ['Belo Horizonte', 'Uberlândia', 'Juiz de Fora']
-  };
-
-  if (uf && municipios[uf]) {
-    municipios[uf].forEach(municipio => {
-      const option = document.createElement('option');
-      option.value = municipio;
-      option.textContent = municipio;
-      municipioSelect.appendChild(option);
-    });
-  } else {
-    const option = document.createElement('option');
-    option.value = '';
-    option.textContent = 'Selecione a UF primeiro';
-    municipioSelect.appendChild(option);
+  if (uf === 'DF') {
+    municipioSelect.innerHTML += `
+      <option value="Brasília">Brasília</option>
+    `;
+  } else if (uf === 'ES') {
+    municipioSelect.innerHTML += `
+      <option value="Vitória">Vitória</option>
+      <option value="Vila Velha">Vila Velha</option>
+    `;
+  } else if (uf === 'MG') {
+    municipioSelect.innerHTML += `
+      <option value="Belo Horizonte">Belo Horizonte</option>
+      <option value="Montes Claros">Montes Claros</option>
+    `;
   }
 }
 
-// Função para expandir ou recolher os eixos (accordion)
+// Função para alternar a visibilidade das ações nos eixos
 function toggleAccordion(eixoId) {
-  const eixo = document.getElementById(eixoId);
-  const isExpanded = eixo.style.display === 'block';
-  eixo.style.display = isExpanded ? 'none' : 'block';
+  const accordion = document.getElementById(eixoId);
+  accordion.classList.toggle('active');
 }
 
-// Função para adicionar uma nova ação em cada eixo
+// Função para adicionar novas ações em cada eixo
 function addAction(eixoId) {
-  const eixo = document.getElementById(eixoId);
-
-  // Criar um novo item de ação
+  const eixoDiv = document.getElementById(eixoId);
   const newAction = document.createElement('div');
   newAction.classList.add('action');
 
-  // Adicionar campos para a ação
   newAction.innerHTML = `
-    <label for="descricao">Descrição da Ação:</label>
-    <input type="text" name="descricao" placeholder="Descrição da ação">
+    <label for="acao">Descrição da Ação:</label>
+    <input type="text" name="acao">
     <label for="responsavel">Responsável:</label>
-    <input type="text" name="responsavel" placeholder="Responsável pela ação">
-    <label for="prazo">Prazo:</label>
+    <input type="text" name="responsavel">
+    <label for="prazo">Prazo de Execução:</label>
     <input type="date" name="prazo">
+    <button class="remove-action" onclick="removeAction(this)">Remover Ação</button>
   `;
-
-  // Adicionar a nova ação ao eixo
-  eixo.appendChild(newAction);
+  
+  eixoDiv.appendChild(newAction);
 }
 
-// Função para gerar o PDF do plano de ação
+// Função para remover uma ação
+function removeAction(button) {
+  const actionDiv = button.parentElement;
+  actionDiv.remove();
+}
+
+// Função para gerar o PDF com os dados do formulário
 function generatePDF() {
   const doc = new jsPDF();
+  
+  // Captura as informações iniciais
+  const nome = document.querySelector('[name="nome"]').value;
+  const cargo = document.querySelector('[name="cargo"]').value;
+  const uf = document.querySelector('[name="uf"]').value;
+  const municipio = document.querySelector('[name="municipio"]').value;
 
-  // Adicionar título
-  doc.setFont('Helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.text(20, 20, 'Plano de Ação do Programa Especial de Saúde do Rio Doce');
-
-  // Captura as informações do formulário
-  const nome = document.querySelector('input[name="nome"]').value;
-  const cargo = document.querySelector('input[name="cargo"]').value;
-  const uf = document.querySelector('select[name="uf"]').value;
-  const municipio = document.querySelector('select[name="municipio"]').value;
-
-  // Adicionar as informações iniciais ao PDF
+  // Adiciona o título e as informações iniciais no PDF
+  doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  doc.text(20, 30, `Nome: ${nome}`);
-  doc.text(20, 40, `Cargo: ${cargo}`);
-  doc.text(20, 50, `Unidade da Federação: ${uf}`);
-  doc.text(20, 60, `Município: ${municipio}`);
+  doc.text(`Plano de Ação do Programa Especial de Saúde do Rio Doce`, 20, 20);
+  doc.text(`Nome: ${nome}`, 20, 30);
+  doc.text(`Cargo: ${cargo}`, 20, 40);
+  doc.text(`Unidade da Federação: ${uf}`, 20, 50);
+  doc.text(`Município: ${municipio}`, 20, 60);
 
-  // Adicionar os eixos e as ações
+  // Função para adicionar os eixos e suas ações no PDF
   const eixos = ['eixo1', 'eixo2', 'eixo3', 'eixo4', 'eixo5', 'eixo6'];
   let yPosition = 70;
 
   eixos.forEach(eixoId => {
-    const eixo = document.getElementById(eixoId);
-    const eixoTitle = document.querySelector(`h2[onclick="toggleAccordion('${eixoId}')"]`).textContent;
-
-    doc.setFont('Helvetica', 'bold');
-    doc.text(20, yPosition, eixoTitle);
+    const eixoTitulo = document.querySelector(`#${eixoId}`).previousElementSibling.innerText;
+    doc.text(eixoTitulo, 20, yPosition);
     yPosition += 10;
 
-    const actions = eixo.getElementsByClassName('action');
-    Array.from(actions).forEach(action => {
-      const descricao = action.querySelector('input[name="descricao"]').value;
-      const responsavel = action.querySelector('input[name="responsavel"]').value;
-      const prazo = action.querySelector('input[name="prazo"]').value;
-
-      doc.setFont('Helvetica', 'normal');
-      doc.text(20, yPosition, `Descrição: ${descricao}`);
-      doc.text(20, yPosition + 10, `Responsável: ${responsavel}`);
-      doc.text(20, yPosition + 20, `Prazo: ${prazo}`);
-      yPosition += 30;
+    const actions = document.querySelectorAll(`#${eixoId} .action`);
+    actions.forEach(action => {
+      const descricao = action.querySelector('[name="acao"]').value;
+      const responsavel = action.querySelector('[name="responsavel"]').value;
+      const prazo = action.querySelector('[name="prazo"]').value;
+      
+      doc.text(`Descrição: ${descricao}`, 20, yPosition);
+      yPosition += 10;
+      doc.text(`Responsável: ${responsavel}`, 20, yPosition);
+      yPosition += 10;
+      doc.text(`Prazo: ${prazo}`, 20, yPosition);
+      yPosition += 10;
     });
-
-    yPosition += 20; // Espaço entre os eixos
+    
+    yPosition += 10; // Espaço entre os eixos
   });
 
-  // Salvar o PDF
-  doc.save('plano_de_acao.pdf');
+  // Gera o PDF
+  doc.save("plano_de_acao.pdf");
 }
