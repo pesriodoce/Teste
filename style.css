@@ -1,118 +1,198 @@
-/* Geral */
-body {
-  font-family: 'Inter', sans-serif;
+/* Reset */
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.form-container {
-  width: 80%;
-  max-width: 800px;
-  margin: 0 auto;
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f4f7fa;
+  color: #333;
   padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+}
+
+/* Cabeçalho com logo e título */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 30px auto;
+  padding: 10px 20px;
+  background-color: #e5eef7;
+  border-radius: 8px;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .header h1 {
-  text-align: center;
-  font-size: 1.8em;
-  margin-bottom: 20px;
+  flex-grow: 1;
+  font-size: 22px;
+  color: #2c3e50;
+  margin: 0;
+  text-align: left;
+}
+
+.form-container {
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+h2 {
+  background: #3498db;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 18px;
 }
 
 .section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.section h2 {
-  font-size: 1.4em;
+.accordion-item {
+  background: #f9f9f9;
+  border-radius: 8px;
   margin-bottom: 10px;
+  border-left: 4px solid #3498db;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.accordion-header {
+  background: #ecf0f1;
+  padding: 12px 16px;
   cursor: pointer;
-  color: #333;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+  transition: background 0.3s;
+}
+
+.accordion-header:hover {
+  background: #dfe6e9;
+}
+
+.accordion-body {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid #ccc;
 }
 
 label {
-  font-weight: 600;
-  margin-top: 10px;
   display: block;
+  margin-top: 15px;
+  font-weight: 600;
 }
 
 input, select, textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 15px;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  font-size: 14px;
+  background: #fff;
 }
 
 textarea {
-  height: 100px;
   resize: vertical;
-}
-
-button {
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-button:hover {
-  background-color: #0056b3;
+  min-height: 60px;
 }
 
 .add-action {
-  background-color: #28a745;
-}
-
-.add-action i {
-  margin-right: 5px;
+  background: #2980b9;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 14px;
+  transition: background 0.3s;
 }
 
 .add-action:hover {
-  background-color: #218838;
+  background: #21618c;
 }
 
-.action {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  background-color: #fff;
-}
-
-.action label {
-  margin-top: 10px;
+#generate-pdf {
+  background: #27ae60;
   display: block;
-}
-
-.action input, .action textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.action button {
-  background-color: #dc3545;
+  margin: 40px auto 0;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 8px;
   color: white;
   border: none;
-  padding: 5px 10px;
-  font-size: 0.9em;
-  border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  transition: background 0.3s;
 }
 
-.action button:hover {
-  background-color: #c82333;
+#generate-pdf:hover {
+  background: #1e8449;
+}
+
+.masked-currency {
+  text-align: left;
+}
+
+@media print {
+  .accordion-header {
+    font-size: 16px;
+    background: none;
+    border: none;
+    font-weight: bold;
+    padding: 8px 0;
+    color: #1a5276;
+    margin-top: 20px;
+  }
+
+  .accordion-body {
+    display: block !important;
+    padding: 0;
+  }
+
+  button, .add-action {
+    display: none !important;
+  }
+
+  .accordion-item {
+    border: none;
+    border-bottom: 2px dashed #999;
+    box-shadow: none;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  input, textarea, select {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    color: #1a5276;
+    margin-top: 30px;
+  }
 }
