@@ -4,7 +4,7 @@ function generatePDF() {
   const doc = new jsPDF();
 
   // Título com tamanho ajustado
-  doc.setFontSize(16); // Reduzindo o tamanho da fonte para 18
+  doc.setFontSize(14); // Reduzindo o tamanho da fonte para 18
   doc.text('Plano de Ação do Programa Especial de Saúde do Rio Doce', 10, 10);
 
   // Informações do formulário
