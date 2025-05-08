@@ -1,105 +1,53 @@
-function generatePDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-
-  doc.setFontSize(14);
-  doc.text('Plano de Ação do Programa Especial de Saúde do Rio Doce', 10, 10);
-
-  // Informações iniciais
-  const nome = document.querySelector('input[name="nome"]').value;
-  const cargo = document.querySelector('input[name="cargo"]').value;
-  const uf = document.querySelector('select[name="uf"]').value;
-  const municipio = document.querySelector('select[name="municipio"]').value;
-
-  doc.setFontSize(12);
-  doc.text(Nome: ${nome}, 10, 20);
-  doc.text(Cargo: ${cargo}, 10, 30);
-  doc.text(Unidade da Federação: ${uf}, 10, 40);
-  doc.text(Município: ${municipio}, 10, 50);
-
-  let yPosition = 60;
-
-  // Diagnóstico Situacional de Saúde
-  const perfilSocio = document.getElementById('perfil-socioeconomico').value;
-  const perfilEpi = document.getElementById('perfil-epidemiologico').value;
-  const estruturaRede = document.getElementById('estrutura-rede-saude').value;
-
-  doc.setFontSize(14);
-  doc.text("Diagnóstico Situacional de Saúde", 10, yPosition);
-  yPosition += 10;
-
-  doc.setFontSize(12);
-  doc.text("Perfil socioeconômico, produtivo e demográfico do território:", 10, yPosition);
-  yPosition += 8;
-  yPosition = addMultilineText(doc, perfilSocio, 10, yPosition);
-
-  doc.text("Perfil epidemiológico do território:", 10, yPosition);
-  yPosition += 8;
-  yPosition = addMultilineText(doc, perfilEpi, 10, yPosition);
-
-  doc.text("Estrutura da rede e serviços de saúde existentes:", 10, yPosition);
-  yPosition += 8;
-  yPosition = addMultilineText(doc, estruturaRede, 10, yPosition);
-
-  // Eixos e ações
+document.addEventListener("DOMContentLoaded", () => {
   const eixos = [
-    "Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde",
-    "Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde",
-    "Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde",
-    "Eixo 4 - Melhoria das práticas de gestão em saúde",
-    "Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital",
-    "Eixo 6 - Formação e educação permanente"
+    "Fortalecimento e ampliação dos serviços de Atenção à Saúde",
+    "Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde",
+    "Fortalecimento, ampliação e melhorias da infraestrutura de saúde",
+    "Melhoria das práticas de gestão em saúde",
+    "Ações de inteligência e ciências de dados e serviços de saúde digital",
+    "Formação e educação permanente"
   ];
 
+  const container = document.getElementById("eixos-container");
+
   eixos.forEach((titulo, i) => {
-    const eixoId = eixo${i + 1};
-    const inputs = document.querySelectorAll(#${eixoId} .action input);
-    const actions = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-    if (actions.length > 0) {
-      doc.setFontSize(14);
-      doc.text(titulo, 10, yPosition);
-      yPosition += 10;
-
-      doc.setFontSize(12);
-      actions.forEach(action => {
-        doc.text(- ${action}, 10, yPosition);
-        yPosition += 8;
-      });
-
-      yPosition += 6;
-    }
+    const eixoId = `eixo${i + 1}`;
+    const section = document.createElement("div");
+    section.className = "section";
+    section.innerHTML = `
+      <h2 onclick="toggleAccordion('${eixoId}')">Eixo ${i + 1} - ${titulo}</h2>
+      <div class="accordion" id="${eixoId}"></div>
+      <button class="add-action" onclick="addAction('${eixoId}')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    `;
+    container.appendChild(section);
   });
-
-  doc.save('plano_de_acao.pdf');
-}
-
-// Auxiliar para quebras de linha em textos longos
-function addMultilineText(doc, text, x, y, maxWidth = 180, lineHeight = 6) {
-  const lines = doc.splitTextToSize(text, maxWidth);
-  lines.forEach(line => {
-    doc.text(line, x, y);
-    y += lineHeight;
-  });
-  return y + 4;
-}
+});
 
 function addAction(eixoId) {
   const eixoDiv = document.getElementById(eixoId);
-  const actionDiv = document.createElement('div');
-  actionDiv.classList.add('action');
+  const actionDiv = document.createElement("div");
+  actionDiv.classList.add("action");
 
-  const actionInput = document.createElement('input');
-  actionInput.type = 'text';
-  actionInput.placeholder = 'Digite a ação aqui';
+  actionDiv.innerHTML = `
+    <label>Descrição da ação</label>
+    <input type="text" placeholder="Descreva a ação">
+    <label>Meta</label>
+    <input type="text" placeholder="Informe a meta">
+    <label>Indicadores</label>
+    <input type="text" placeholder="Informe os indicadores">
+    <label>Responsável</label>
+    <input type="text" placeholder="Nome do responsável">
+    <label>Cronograma</label>
+    <input type="text" placeholder="Ex: Jan 2025 - Dez 2025">
+    <label>Orçamento estimado</label>
+    <input type="text" placeholder="R$ 0,00">
+    <button onclick="this.parentElement.remove()">Remover</button>
+  `;
 
-  const removeButton = document.createElement('button');
-  removeButton.textContent = 'Remover';
-  removeButton.onclick = () => eixoDiv.removeChild(actionDiv);
-
-  actionDiv.appendChild(actionInput);
-  actionDiv.appendChild(removeButton);
   eixoDiv.appendChild(actionDiv);
+  actionDiv.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function toggleAccordion(eixoId) {
@@ -108,7 +56,7 @@ function toggleAccordion(eixoId) {
 }
 
 function updateMunicipios(uf) {
-  const municipioSelect = document.getElementById('municipio-select');
+  const municipioSelect = document.getElementById("municipio-select");
   municipioSelect.innerHTML = '<option value="">Selecione a UF primeiro</option>';
 
   const municipios = {
