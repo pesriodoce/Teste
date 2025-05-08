@@ -22,87 +22,107 @@ const municipios = {
   }
   
   function toggleAccordion(id) {
-    const body = document.getElementById(id);
-    body.style.display = body.style.display === 'block' ? 'none' : 'block';
+    const element = document.getElementById(id);
+    if (element) {
+      element.style.display = element.style.display === 'block' ? 'none' : 'block';
+    }
+  }
+  
+  function collapseAllBodies() {
+    document.querySelectorAll('.accordion-body').forEach(body => {
+      body.style.display = 'none';
+    });
   }
   
   let actionCount = 0;
   
   function addAction(eixoId) {
-    // Retrasando as outras ações ao incluir nova
-    document.querySelectorAll('.accordion-body').forEach(body => {
-      body.style.display = 'none';
-    });
+    collapseAllBodies();
   
     actionCount++;
     const eixo = document.getElementById(eixoId);
-    const newId = `acao${eixoId}_${actionCount}`;
-    const newAction = document.createElement('div');
-    newAction.classList.add('accordion-item');
-    newAction.innerHTML = `
+    const newId = `acao_${eixoId}_${actionCount}`;
+    const actionItem = document.createElement('div');
+    actionItem.classList.add('accordion-item');
+  
+    actionItem.innerHTML = `
       <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
-      <div class="accordion-body" id="${newId}">
+      <div class="accordion-body" id="${newId}" style="display: block;">
+        <label>Nome da ação:</label>
+        <input type="text" onchange="this.closest('.accordion-item').querySelector('.accordion-header').innerText = this.value || 'Nova Ação'">
+        
         <label>Identificação do Problema:</label>
         <textarea></textarea>
-        <label>Nome da ação:</label>
-        <input type="text" onchange="updateActionName('${newId}')">
+  
         <label>Descrição da ação:</label>
         <textarea></textarea>
+  
         <label>Objetivos:</label>
         <textarea></textarea>
+  
         <label>Itens previstos:</label>
         <input type="text">
+  
         <label>Tipo da Ação:</label>
         <select><option>Investimento</option><option>Custeio</option></select>
+  
         <label>Orçamento previsto:</label>
-        <input type="text" class="masked-currency" id="budget-${newId}">
+        <input type="text" class="masked-currency" oninput="formatCurrency(this)">
+  
         <label>Data de início:</label>
         <input type="date">
+  
         <label>Data de conclusão:</label>
         <input type="date">
+  
         <label>Indicador:</label>
         <input type="text">
+  
         <label>Meta:</label>
         <input type="text">
+  
         <label>Observações:</label>
         <textarea></textarea>
       </div>
     `;
-    eixo.appendChild(newAction);
-    const inputBudget = document.getElementById(`budget-${newId}`);
-    inputBudget.addEventListener('input', function () {
-      let value = inputBudget.value.replace(/\D/g, '');
-      value = value.replace(/(\d)(\d{2})$/, '$1,$2');
-      inputBudget.value = value ? 'R$ ' + value : '';
-    });
-  
-    toggleAccordion(newId);
+    eixo.appendChild(actionItem);
   }
   
-  function updateActionName(id) {
-    const actionNameInput = document.getElementById(id).querySelector('input[type="text"]');
-    const header = document.getElementById(id).querySelector('.accordion-header');
-    header.textContent = actionNameInput.value || 'Nova Ação';
+  function formatCurrency(input) {
+    let value = input.value.replace(/\D/g, '');
+    value = value.replace(/(\d)(\d{2})$/, '$1,$2');
+    value = value.replace(/(?=(\d{3})+(\D))\B/g, ".");
+    input.value = value ? `R$ ${value}` : '';
   }
   
   function generatePDF() {
     const sections = document.querySelectorAll('.section');
     let content = '<h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>';
+  
     sections.forEach(section => {
-      const title = section.querySelector('h2').textContent;
+      const title = section.querySelector('h2')?.textContent;
+      if (title) {
+        content += `<h2>${title}</h2>`;
+      }
+  
       const actions = section.querySelectorAll('.accordion-item');
-      content += `<h2>${title}</h2>`;
       actions.forEach(action => {
-        content += `<div><strong>Ação:</strong> ${action.querySelector('.accordion-header').textContent}<ul>`;
-        const inputs = action.querySelectorAll('input, select, textarea');
-        inputs.forEach(input => {
-          content += `<li><strong>${input.previousElementSibling ? input.previousElementSibling.textContent : input.tagName}</strong>: ${input.value || 'Não preenchido'}</li>`;
+        const header = action.querySelector('.accordion-header')?.textContent || 'Ação';
+        content += `<h3>${header}</h3><ul>`;
+  
+        const fields = action.querySelectorAll('input, select, textarea');
+        fields.forEach(field => {
+          const label = field.previousElementSibling?.textContent || 'Campo';
+          const value = field.value || 'Não preenchido';
+          content += `<li><strong>${label}</strong>: ${value}</li>`;
         });
-        content += '</ul></div>';
+  
+        content += '</ul><hr>';
       });
     });
-    const pdfWindow = window.open();
-    pdfWindow.document.write(content);
+  
+    const pdfWindow = window.open('', '_blank');
+    pdfWindow.document.write(`<html><head><title>PDF</title></head><body>${content}</body></html>`);
     pdfWindow.document.close();
     pdfWindow.print();
   }
