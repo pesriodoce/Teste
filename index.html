@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="form-container">
@@ -17,23 +16,37 @@
 
     <div class="section">
       <h2>Informações Iniciais</h2>
-      <label>Nome:</label>
-      <input type="text" name="nome">
-      <label>Cargo:</label>
-      <input type="text" name="cargo">
-      <label>Unidade da Federação:</label>
-      <select name="uf" onchange="updateMunicipios(this.value)">
+      <label for="nome">Nome:</label>
+      <input type="text" name="nome" id="nome">
+      <label for="cargo">Cargo:</label>
+      <input type="text" name="cargo" id="cargo">
+      <label for="uf">Unidade da Federação:</label>
+      <select name="uf" id="uf" onchange="updateMunicipios(this.value)">
         <option value="">Selecione</option>
         <option value="DF">DF</option>
         <option value="ES">ES</option>
         <option value="MG">MG</option>
       </select>
-      <label>Município:</label>
+      <label for="municipio">Município:</label>
       <select name="municipio" id="municipio-select">
         <option value="">Selecione a UF primeiro</option>
       </select>
     </div>
 
+    <!-- Nova Seção: Diagnóstico Situacional de Saúde -->
+    <div class="section">
+      <h2>Diagnóstico Situacional de Saúde</h2>
+      <label for="perfil-socioeconomico">Perfil socioeconômico, produtivo e demográfico do território:</label>
+      <textarea name="perfil-socioeconomico" id="perfil-socioeconomico" placeholder="Descreva o perfil socioeconômico, produtivo e demográfico do território aqui"></textarea>
+      
+      <label for="perfil-epidemiologico">Perfil epidemiológico do território:</label>
+      <textarea name="perfil-epidemiologico" id="perfil-epidemiologico" placeholder="Descreva o perfil epidemiológico do território aqui"></textarea>
+      
+      <label for="estrutura-rede-saude">Estrutura da rede e serviços de saúde instalados e existentes no território:</label>
+      <textarea name="estrutura-rede-saude" id="estrutura-rede-saude" placeholder="Descreva a estrutura da rede e serviços de saúde aqui"></textarea>
+    </div>
+
+    <!-- Eixos -->
     <div class="section">
       <h2 onclick="toggleAccordion('eixo1')">Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
       <div class="accordion" id="eixo1"></div>
@@ -41,7 +54,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo2')">Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
       <div class="accordion" id="eixo2"></div>
@@ -49,7 +62,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo3')">Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde</h2>
       <div class="accordion" id="eixo3"></div>
@@ -57,7 +70,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo4')">Eixo 4 - Melhoria das práticas de gestão em saúde</h2>
       <div class="accordion" id="eixo4"></div>
@@ -65,7 +78,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo5')">Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
       <div class="accordion" id="eixo5"></div>
@@ -73,7 +86,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo6')">Eixo 6 - Formação e educação permanente</h2>
       <div class="accordion" id="eixo6"></div>
@@ -81,7 +94,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <button id="generate-pdf" onclick="generatePDF()">
       <i class="fas fa-file-pdf"></i> Gerar PDF
     </button>
