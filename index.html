@@ -46,6 +46,7 @@
       <textarea id="estrutura-rede-saude" placeholder="Descreva a estrutura da rede e serviços de saúde do território"></textarea>
     </div>
 
+    <!-- Eixos de Ação -->
     <div class="section">
       <h2 onclick="toggleAccordion('eixo1')">Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
       <div class="accordion" id="eixo1"></div>
@@ -53,7 +54,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo2')">Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
       <div class="accordion" id="eixo2"></div>
@@ -61,7 +62,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo3')">Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde</h2>
       <div class="accordion" id="eixo3"></div>
@@ -69,7 +70,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo4')">Eixo 4 - Melhoria das práticas de gestão em saúde</h2>
       <div class="accordion" id="eixo4"></div>
@@ -77,7 +78,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo5')">Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
       <div class="accordion" id="eixo5"></div>
@@ -85,7 +86,7 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <div class="section">
       <h2 onclick="toggleAccordion('eixo6')">Eixo 6 - Formação e educação permanente</h2>
       <div class="accordion" id="eixo6"></div>
@@ -93,13 +94,13 @@
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    
+
     <button id="generate-pdf" onclick="generatePDF()">
       <i class="fas fa-file-pdf"></i> Gerar PDF
     </button>
   </div>
 
-  <!-- IMPORTANTE: Adicionamos o jsPDF antes do script.js -->
+  <!-- Importação do jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
