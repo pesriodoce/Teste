@@ -79,3 +79,40 @@ button:hover {
 .add-action:hover {
   background-color: #218838;
 }
+
+.action {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.action label {
+  margin-top: 10px;
+  display: block;
+}
+
+.action input, .action textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.action button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.action button:hover {
+  background-color: #c82333;
+}
