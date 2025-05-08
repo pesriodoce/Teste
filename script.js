@@ -21,17 +21,22 @@ const municipios = {
     }
   }
   
-  function toggleAccordion(id) {
-    const element = document.getElementById(id);
-    if (element) {
-      element.style.display = element.style.display === 'block' ? 'none' : 'block';
-    }
+  function collapseAllBodies(exceptId = null) {
+    document.querySelectorAll('.accordion-body').forEach(body => {
+      if (body.id !== exceptId) {
+        body.style.display = 'none';
+      }
+    });
   }
   
-  function collapseAllBodies() {
-    document.querySelectorAll('.accordion-body').forEach(body => {
+  function toggleAccordion(id) {
+    const body = document.getElementById(id);
+    if (body.style.display === 'block') {
       body.style.display = 'none';
-    });
+    } else {
+      collapseAllBodies(id);
+      body.style.display = 'block';
+    }
   }
   
   let actionCount = 0;
@@ -42,15 +47,15 @@ const municipios = {
     actionCount++;
     const eixo = document.getElementById(eixoId);
     const newId = `acao_${eixoId}_${actionCount}`;
-    const actionItem = document.createElement('div');
-    actionItem.classList.add('accordion-item');
+    const item = document.createElement('div');
+    item.classList.add('accordion-item');
   
-    actionItem.innerHTML = `
+    item.innerHTML = `
       <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
       <div class="accordion-body" id="${newId}" style="display: block;">
         <label>Nome da ação:</label>
-        <input type="text" onchange="this.closest('.accordion-item').querySelector('.accordion-header').innerText = this.value || 'Nova Ação'">
-        
+        <input type="text" oninput="updateAccordionTitle(this, '${newId}')">
+  
         <label>Identificação do Problema:</label>
         <textarea></textarea>
   
@@ -85,7 +90,18 @@ const municipios = {
         <textarea></textarea>
       </div>
     `;
-    eixo.appendChild(actionItem);
+  
+    eixo.appendChild(item);
+  
+    // Rolagem suave até a nova ação
+    setTimeout(() => {
+      document.getElementById(newId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+  
+  function updateAccordionTitle(input, bodyId) {
+    const header = document.getElementById(bodyId).previousElementSibling;
+    header.textContent = input.value || 'Nova Ação';
   }
   
   function formatCurrency(input) {
@@ -101,9 +117,7 @@ const municipios = {
   
     sections.forEach(section => {
       const title = section.querySelector('h2')?.textContent;
-      if (title) {
-        content += `<h2>${title}</h2>`;
-      }
+      if (title) content += `<h2>${title}</h2>`;
   
       const actions = section.querySelectorAll('.accordion-item');
       actions.forEach(action => {
