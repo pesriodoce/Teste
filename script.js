@@ -29,10 +29,10 @@ function toggleAccordion(id) {
 let actionCount = 0;
 
 function addAction(eixoId) {
-  // Fecha todas as outras ações ao adicionar uma nova
-document.querySelectorAll('.accordion-body').forEach(body => {
-  body.style.display = 'none';
-});
+  document.querySelectorAll('.accordion-body').forEach(body => {
+    body.style.display = 'none';
+  });
+
   actionCount++;
   const eixo = document.getElementById(eixoId);
   const newId = `acao${eixoId}_${actionCount}`;
@@ -44,7 +44,7 @@ document.querySelectorAll('.accordion-body').forEach(body => {
       <label>Identificação do Problema:</label>
       <textarea></textarea>
       <label>Nome da ação:</label>
-      <input type="text">
+      <input type="text" onchange="updateActionName('${newId}')">
       <label>Descrição da ação:</label>
       <textarea></textarea>
       <label>Objetivos:</label>
@@ -74,7 +74,14 @@ document.querySelectorAll('.accordion-body').forEach(body => {
     value = value.replace(/(\d)(\d{2})$/, '$1,$2');
     inputBudget.value = value ? 'R$ ' + value : '';
   });
+
   toggleAccordion(newId);
+}
+
+function updateActionName(id) {
+  const actionNameInput = document.getElementById(id).querySelector('input[type="text"]');
+  const header = document.getElementById(id).querySelector('.accordion-header');
+  header.textContent = actionNameInput.value || 'Nova Ação';
 }
 
 function generatePDF() {
