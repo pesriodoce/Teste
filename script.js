@@ -29,6 +29,10 @@ function toggleAccordion(id) {
 let actionCount = 0;
 
 function addAction(eixoId) {
+  // Fecha todas as outras ações ao adicionar uma nova
+document.querySelectorAll('.accordion-body').forEach(body => {
+  body.style.display = 'none';
+});
   actionCount++;
   const eixo = document.getElementById(eixoId);
   const newId = `acao${eixoId}_${actionCount}`;
