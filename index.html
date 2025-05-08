@@ -1,74 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Plano de Ação - Programa Especial de Saúde do Rio Doce</title>
+  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
+  <div class="form-container">
+    <header class="header">
+      <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
+    </header>
 
-  <div class="section">
-    <h2>Informações Iniciais</h2>
-    <label>Nome:</label>
-    <input type="text" name="nome">
-    <label>Cargo:</label>
-    <input type="text" name="cargo">
-    <label>Unidade da Federação:</label>
-    <select name="uf" onchange="updateMunicipios(this.value)">
-      <option value="">Selecione</option>
-      <option value="DF">DF</option>
-      <option value="ES">ES</option>
-      <option value="MG">MG</option>
-    </select>
-    <label>Município:</label>
-    <select name="municipio" id="municipio-select">
-      <option value="">Selecione a UF primeiro</option>
-    </select>
-  </div>
-
-  <div class="section">
-    <h2 onclick="toggleAccordion('eixo1')">Eixo 1 – Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
-    <div class="accordion" id="eixo1">
-      <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion('acao1')">Ação 1</div>
-        <div class="accordion-body" id="acao1">
-          <label>Identificação do Problema:</label>
-          <textarea></textarea>
-          <label>Nome da ação:</label>
-          <input type="text">
-          <label>Descrição da ação:</label>
-          <textarea></textarea>
-          <label>Objetivos:</label>
-          <textarea></textarea>
-          <label>Itens previstos:</label>
-          <input type="text">
-          <label>Tipo da Ação:</label>
-          <select><option>Investimento</option><option>Custeio</option></select>
-          <label>Orçamento previsto:</label>
-          <input type="number">
-          <label>Data de início:</label>
-          <input type="date">
-          <label>Data de conclusão:</label>
-          <input type="date">
-          <label>Indicador:</label>
-          <input type="text">
-          <label>Meta:</label>
-          <input type="text">
-          <label>Observações:</label>
-          <textarea></textarea>
-        </div>
-      </div>
-      <button class="add-action" onclick="addAction('eixo1')">Adicionar nova ação</button>
+    <div class="section">
+      <h2>Informações Iniciais</h2>
+      <label>Nome:</label>
+      <input type="text" name="nome">
+      <label>Cargo:</label>
+      <input type="text" name="cargo">
+      <label>Unidade da Federação:</label>
+      <select name="uf" onchange="updateMunicipios(this.value)">
+        <option value="">Selecione</option>
+        <option value="DF">DF</option>
+        <option value="ES">ES</option>
+        <option value="MG">MG</option>
+      </select>
+      <label>Município:</label>
+      <select name="municipio" id="municipio-select">
+        <option value="">Selecione a UF primeiro</option>
+      </select>
     </div>
+
+    <!-- Seções de Eixos -->
+    <div class="section" id="eixo1">
+      <h2 onclick="toggleAccordion('eixo1')">Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
+      <div class="accordion" id="accordion-eixo1"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo1')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+    <div class="section" id="eixo2">
+      <h2 onclick="toggleAccordion('eixo2')">Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
+      <div class="accordion" id="accordion-eixo2"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo2')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+
+    <!-- Outros Eixos -->
+    <div class="section" id="eixo3">
+      <h2 onclick="toggleAccordion('eixo3')">Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde</h2>
+      <div class="accordion" id="accordion-eixo3"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo3')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+    <div class="section" id="eixo4">
+      <h2 onclick="toggleAccordion('eixo4')">Eixo 4 - Melhoria das práticas de gestão em saúde</h2>
+      <div class="accordion" id="accordion-eixo4"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo4')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+    <div class="section" id="eixo5">
+      <h2 onclick="toggleAccordion('eixo5')">Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
+      <div class="accordion" id="accordion-eixo5"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo5')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+    <div class="section" id="eixo6">
+      <h2 onclick="toggleAccordion('eixo6')">Eixo 6 - Formação e educação permanente</h2>
+      <div class="accordion" id="accordion-eixo6"></div>
+      <button class="add-action" onclick="addAction('accordion-eixo6')">
+        <i class="fas fa-plus-circle"></i> Adicionar nova ação
+      </button>
+    </div>
+
+    <button id="generate-pdf" onclick="generatePDF()">
+      <i class="fas fa-file-pdf"></i> Gerar PDF
+    </button>
   </div>
 
-  <!-- Replicar o código acima para outros Eixos -->
-
-  <button id="generate-pdf" onclick="window.print()">Gerar PDF</button>
-
-  <script src="scripts.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
