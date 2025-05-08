@@ -1,101 +1,110 @@
-// Atualiza o select de municípios de acordo com a UF escolhida
-function updateMunicipios(uf) {
-  const municipioSelect = document.getElementById('municipio-select');
-  municipioSelect.innerHTML = "<option value=''>Selecione a UF primeiro</option>";
-
-  if (uf === 'DF') {
-    municipioSelect.innerHTML += `
-      <option value="Brasília">Brasília</option>
-    `;
-  } else if (uf === 'ES') {
-    municipioSelect.innerHTML += `
-      <option value="Vitória">Vitória</option>
-      <option value="Vila Velha">Vila Velha</option>
-    `;
-  } else if (uf === 'MG') {
-    municipioSelect.innerHTML += `
-      <option value="Belo Horizonte">Belo Horizonte</option>
-      <option value="Montes Claros">Montes Claros</option>
-    `;
-  }
-}
-
-// Função para alternar a visibilidade das ações nos eixos
-function toggleAccordion(eixoId) {
-  const accordion = document.getElementById(eixoId);
-  accordion.classList.toggle('active');
-}
-
-// Função para adicionar novas ações em cada eixo
-function addAction(eixoId) {
-  const eixoDiv = document.getElementById(eixoId);
-  const newAction = document.createElement('div');
-  newAction.classList.add('action');
-
-  newAction.innerHTML = `
-    <label for="acao">Descrição da Ação:</label>
-    <input type="text" name="acao">
-    <label for="responsavel">Responsável:</label>
-    <input type="text" name="responsavel">
-    <label for="prazo">Prazo de Execução:</label>
-    <input type="date" name="prazo">
-    <button class="remove-action" onclick="removeAction(this)">Remover Ação</button>
-  `;
-  
-  eixoDiv.appendChild(newAction);
-}
-
-// Função para remover uma ação
-function removeAction(button) {
-  const actionDiv = button.parentElement;
-  actionDiv.remove();
-}
-
-// Função para gerar o PDF com os dados do formulário
+// Função para gerar o PDF
 function generatePDF() {
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  
-  // Captura as informações iniciais
-  const nome = document.querySelector('[name="nome"]').value;
-  const cargo = document.querySelector('[name="cargo"]').value;
-  const uf = document.querySelector('[name="uf"]').value;
-  const municipio = document.querySelector('[name="municipio"]').value;
 
-  // Adiciona o título e as informações iniciais no PDF
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
-  doc.text(`Plano de Ação do Programa Especial de Saúde do Rio Doce`, 20, 20);
-  doc.text(`Nome: ${nome}`, 20, 30);
-  doc.text(`Cargo: ${cargo}`, 20, 40);
-  doc.text(`Unidade da Federação: ${uf}`, 20, 50);
-  doc.text(`Município: ${municipio}`, 20, 60);
+  // Título com tamanho ajustado
+  doc.setFontSize(18); // Reduzindo o tamanho da fonte para 18
+  doc.text('Plano de Ação do Programa Especial de Saúde do Rio Doce', 10, 10);
 
-  // Função para adicionar os eixos e suas ações no PDF
-  const eixos = ['eixo1', 'eixo2', 'eixo3', 'eixo4', 'eixo5', 'eixo6'];
-  let yPosition = 70;
+  // Informações do formulário
+  const nome = document.querySelector('input[name="nome"]').value;
+  const cargo = document.querySelector('input[name="cargo"]').value;
+  const uf = document.querySelector('select[name="uf"]').value;
+  const municipio = document.querySelector('select[name="municipio"]').value;
 
-  eixos.forEach(eixoId => {
-    const eixoTitulo = document.querySelector(`#${eixoId}`).previousElementSibling.innerText;
-    doc.text(eixoTitulo, 20, yPosition);
-    yPosition += 10;
+  doc.setFontSize(12); // Tamanho de fonte ajustado para o restante do conteúdo
+  doc.text(`Nome: ${nome}`, 10, 20);
+  doc.text(`Cargo: ${cargo}`, 10, 30);
+  doc.text(`Unidade da Federação: ${uf}`, 10, 40);
+  doc.text(`Município: ${municipio}`, 10, 50);
 
-    const actions = document.querySelectorAll(`#${eixoId} .action`);
-    actions.forEach(action => {
-      const descricao = action.querySelector('[name="acao"]').value;
-      const responsavel = action.querySelector('[name="responsavel"]').value;
-      const prazo = action.querySelector('[name="prazo"]').value;
-      
-      doc.text(`Descrição: ${descricao}`, 20, yPosition);
-      yPosition += 10;
-      doc.text(`Responsável: ${responsavel}`, 20, yPosition);
-      yPosition += 10;
-      doc.text(`Prazo: ${prazo}`, 20, yPosition);
-      yPosition += 10;
+  // Adiciona os Eixos e as Ações
+  let yPosition = 60; // Posição inicial para os eixos
+
+  const eixos = [
+    { title: "Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde", actions: [] },
+    { title: "Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde", actions: [] },
+    { title: "Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde", actions: [] },
+    { title: "Eixo 4 - Melhoria das práticas de gestão em saúde", actions: [] },
+    { title: "Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital", actions: [] },
+    { title: "Eixo 6 - Formação e educação permanente", actions: [] }
+  ];
+
+  // Função para coletar ações inseridas
+  function collectActions(eixoId) {
+    const actions = [];
+    const actionElements = document.querySelectorAll(`#${eixoId} .action input`);
+    actionElements.forEach(input => {
+      if (input.value.trim() !== "") {
+        actions.push(input.value.trim());
+      }
     });
-    
+    return actions;
+  }
+
+  // Atualizar os eixos e ações no PDF
+  eixos.forEach((eixo, index) => {
+    eixo.actions = collectActions(`eixo${index + 1}`);
+    doc.setFontSize(14); // Ajustando para um tamanho maior no título dos eixos
+    doc.text(eixo.title, 10, yPosition);
+    yPosition += 10; // Aumenta a posição vertical para não sobrepor
+
+    eixo.actions.forEach(action => {
+      doc.setFontSize(12);
+      doc.text(`- ${action}`, 10, yPosition);
+      yPosition += 8; // Aumenta a posição para cada ação
+    });
+
     yPosition += 10; // Espaço entre os eixos
   });
 
-  // Gera o PDF
-  doc.save("plano_de_acao.pdf");
+  // Salvar o PDF
+  doc.save('plano_de_acao.pdf');
+}
+
+// Função para adicionar ações ao formulário (para fins de interação)
+function addAction(eixoId) {
+  const eixoDiv = document.getElementById(eixoId);
+  const actionDiv = document.createElement('div');
+  actionDiv.classList.add('action');
+  
+  const actionInput = document.createElement('input');
+  actionInput.setAttribute('type', 'text');
+  actionInput.setAttribute('placeholder', 'Digite a ação aqui');
+  
+  const removeButton = document.createElement('button');
+  removeButton.innerHTML = 'Remover';
+  removeButton.onclick = () => eixoDiv.removeChild(actionDiv);
+
+  actionDiv.appendChild(actionInput);
+  actionDiv.appendChild(removeButton);
+  eixoDiv.appendChild(actionDiv);
+}
+
+// Função para alternar a visibilidade dos eixos
+function toggleAccordion(eixoId) {
+  const eixoDiv = document.getElementById(eixoId);
+  eixoDiv.style.display = (eixoDiv.style.display === 'block') ? 'none' : 'block';
+}
+
+// Função para atualizar a lista de municípios com base na UF selecionada
+function updateMunicipios(uf) {
+  const municipioSelect = document.getElementById('municipio-select');
+  municipioSelect.innerHTML = '<option value="">Selecione a UF primeiro</option>';
+
+  const municipios = {
+    'DF': ['Brasília'],
+    'ES': ['Vitória', 'Vila Velha', 'Serra'],
+    'MG': ['Belo Horizonte', 'Uberlândia', 'Juiz de Fora']
+  };
+
+  if (uf && municipios[uf]) {
+    municipios[uf].forEach(municipio => {
+      const option = document.createElement('option');
+      option.value = municipio;
+      option.textContent = municipio;
+      municipioSelect.appendChild(option);
+    });
+  }
 }
