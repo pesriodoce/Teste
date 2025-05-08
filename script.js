@@ -12,10 +12,10 @@ function generatePDF() {
   const municipio = document.querySelector('select[name="municipio"]').value;
 
   doc.setFontSize(12);
-  doc.text(`Nome do responsável pelo documento: ${nome}`, 10, 20); // Alterado aqui
-  doc.text(`Cargo: ${cargo}`, 10, 30);
-  doc.text(`Unidade da Federação: ${uf}`, 10, 40);
-  doc.text(`Município: ${municipio}`, 10, 50);
+  doc.text(Nome: ${nome}, 10, 20);
+  doc.text(Cargo: ${cargo}, 10, 30);
+  doc.text(Unidade da Federação: ${uf}, 10, 40);
+  doc.text(Município: ${municipio}, 10, 50);
 
   let yPosition = 60;
 
@@ -52,8 +52,8 @@ function generatePDF() {
   ];
 
   eixos.forEach((titulo, i) => {
-    const eixoId = `eixo${i + 1}`;
-    const inputs = document.querySelectorAll(`#${eixoId} .action input`);
+    const eixoId = eixo${i + 1};
+    const inputs = document.querySelectorAll(#${eixoId} .action input);
     const actions = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
 
     if (actions.length > 0) {
@@ -63,7 +63,7 @@ function generatePDF() {
 
       doc.setFontSize(12);
       actions.forEach(action => {
-        doc.text(`- ${action}`, 10, yPosition);
+        doc.text(- ${action}, 10, yPosition);
         yPosition += 8;
       });
 
@@ -100,9 +100,6 @@ function addAction(eixoId) {
   actionDiv.appendChild(actionInput);
   actionDiv.appendChild(removeButton);
   eixoDiv.appendChild(actionDiv);
-
-  // Scroll para mostrar as ações inseridas
-  eixoDiv.scrollTop = eixoDiv.scrollHeight;
 }
 
 function toggleAccordion(eixoId) {
