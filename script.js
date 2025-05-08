@@ -78,9 +78,14 @@ function generatePDF() {
 function addMultilineText(doc, text, x, y, maxWidth = 180, lineHeight = 6) {
   const lines = doc.splitTextToSize(text, maxWidth);
   lines.forEach(line => {
+    if (y > 280) {
+      doc.addPage();
+      y = 10;
+    }
     doc.text(line, x, y);
     y += lineHeight;
   });
+
   return y + 4;
 }
 
@@ -100,6 +105,14 @@ function addAction(eixoId) {
   actionDiv.appendChild(actionInput);
   actionDiv.appendChild(removeButton);
   eixoDiv.appendChild(actionDiv);
+
+  // Mostrar o eixo se estiver escondido
+  eixoDiv.style.display = 'block';
+
+  // Rolar até a nova ação adicionada
+  setTimeout(() => {
+    actionDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
 }
 
 function toggleAccordion(eixoId) {
