@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
   <div class="form-container">
@@ -33,57 +34,58 @@
       </select>
     </div>
 
-    <!-- Seções de Eixos -->
-    <div class="section" id="eixo1">
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo1')">Eixo 1 - Fortalecimento e ampliação dos serviços de Atenção à Saúde</h2>
-      <div class="accordion" id="accordion-eixo1"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo1')">
+      <div class="accordion" id="eixo1"></div>
+      <button class="add-action" onclick="addAction('eixo1')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    <div class="section" id="eixo2">
+    
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo2')">Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
-      <div class="accordion" id="accordion-eixo2"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo2')">
+      <div class="accordion" id="eixo2"></div>
+      <button class="add-action" onclick="addAction('eixo2')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-
-    <!-- Outros Eixos -->
-    <div class="section" id="eixo3">
+    
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo3')">Eixo 3 - Fortalecimento, ampliação e melhorias da infraestrutura de saúde</h2>
-      <div class="accordion" id="accordion-eixo3"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo3')">
+      <div class="accordion" id="eixo3"></div>
+      <button class="add-action" onclick="addAction('eixo3')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    <div class="section" id="eixo4">
+    
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo4')">Eixo 4 - Melhoria das práticas de gestão em saúde</h2>
-      <div class="accordion" id="accordion-eixo4"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo4')">
+      <div class="accordion" id="eixo4"></div>
+      <button class="add-action" onclick="addAction('eixo4')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    <div class="section" id="eixo5">
+    
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo5')">Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
-      <div class="accordion" id="accordion-eixo5"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo5')">
+      <div class="accordion" id="eixo5"></div>
+      <button class="add-action" onclick="addAction('eixo5')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-    <div class="section" id="eixo6">
+    
+    <div class="section">
       <h2 onclick="toggleAccordion('eixo6')">Eixo 6 - Formação e educação permanente</h2>
-      <div class="accordion" id="accordion-eixo6"></div>
-      <button class="add-action" onclick="addAction('accordion-eixo6')">
+      <div class="accordion" id="eixo6"></div>
+      <button class="add-action" onclick="addAction('eixo6')">
         <i class="fas fa-plus-circle"></i> Adicionar nova ação
       </button>
     </div>
-
+    
     <button id="generate-pdf" onclick="generatePDF()">
       <i class="fas fa-file-pdf"></i> Gerar PDF
     </button>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
