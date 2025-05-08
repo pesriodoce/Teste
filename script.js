@@ -12,7 +12,7 @@ function generatePDF() {
   const municipio = document.querySelector('select[name="municipio"]').value;
 
   doc.setFontSize(12);
-  doc.text(`Nome: ${nome}`, 10, 20);
+  doc.text(`Nome do responsável pelo documento: ${nome}`, 10, 20); // Alterado aqui
   doc.text(`Cargo: ${cargo}`, 10, 30);
   doc.text(`Unidade da Federação: ${uf}`, 10, 40);
   doc.text(`Município: ${municipio}`, 10, 50);
@@ -100,6 +100,9 @@ function addAction(eixoId) {
   actionDiv.appendChild(actionInput);
   actionDiv.appendChild(removeButton);
   eixoDiv.appendChild(actionDiv);
+
+  // Scroll para mostrar as ações inseridas
+  eixoDiv.scrollTop = eixoDiv.scrollHeight;
 }
 
 function toggleAccordion(eixoId) {
