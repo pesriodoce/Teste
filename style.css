@@ -1,11 +1,9 @@
-/* Estilo básico para o formulário */
 body {
   font-family: 'Inter', sans-serif;
   background-color: #f4f7fb;
   margin: 0;
   padding: 0;
 }
-
 .form-container {
   max-width: 1000px;
   margin: 40px auto;
@@ -14,142 +12,16 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.header h1 {
-  text-align: center;
-  color: #2c3e50;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
 .section {
   margin-bottom: 30px;
 }
-
-h2 {
-  font-size: 18px;
-  color: #34495e;
-  cursor: pointer;
-  margin-bottom: 15px;
-  padding: 8px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
-}
-
-label {
-  display: block;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 5px;
-}
-
-input, select, textarea {
+textarea {
   width: 100%;
+  height: 120px;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
-}
-
-textarea {
-  height: 100px;
-  resize: vertical; /* Permite redimensionamento vertical */
-}
-
-button {
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  display: block;
-  margin-top: 15px;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
-/* Estilo de botões de adicionar ação */
-.add-action {
-  background-color: #27ae60;
-}
-
-.add-action:hover {
-  background-color: #2ecc71;
-}
-
-/* Estilo da seção de Accordion */
-.accordion {
-  display: none;
-  padding-left: 20px;
-  margin-bottom: 15px;
-}
-
-.accordion input, .accordion textarea {
-  width: 90%;
-  margin-left: 10px;
-}
-
-/* Estilo para botões de gerar PDF */
-#generate-pdf {
-  background-color: #e74c3c;
-  margin-top: 30px;
-}
-
-#generate-pdf i {
-  margin-right: 8px;
-}
-
-/* Estilo para as novas seções de Diagnóstico Situacional de Saúde */
-textarea {
-  height: 120px;
   resize: vertical;
-}
-
-textarea::placeholder {
-  color: #7f8c8d;
-}
-
-#perfil-socioeconomico,
-#perfil-epidemiologico,
-#estrutura-rede-saude {
-  background-color: #f9f9f9;
-  border: 1px solid #dcdcdc;
-}
-
-/* Estilo para os campos de Diagnóstico Situacional de Saúde */
-#perfil-socioeconomico, 
-#perfil-epidemiologico, 
-#estrutura-rede-saude {
-  margin-top: 5px;
-}
-
-#perfil-socioeconomico::placeholder, 
-#perfil-epidemiologico::placeholder,
-#estrutura-rede-saude::placeholder {
-  font-style: italic;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .form-container {
-    padding: 10px;
-  }
-  
-  .header h1 {
-    font-size: 20px;
-  }
-
-  input, select, textarea {
-    padding: 8px;
-  }
-  
-  button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
 }
