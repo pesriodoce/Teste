@@ -1,198 +1,225 @@
-/* Reset */
+/* Resetando margens e padding */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: #f4f7fa;
-  color: #333;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
+    font-family: 'Inter', sans-serif;
+    background: #f4f7fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
-/* Cabeçalho com logo e título */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  max-width: 900px;
-  width: 100%;
-  margin: 0 auto 30px auto;
-  padding: 10px 20px;
-  background-color: #e5eef7;
-  border-radius: 8px;
-}
-
-.logo {
-  height: 50px;
-  width: auto;
-  flex-shrink: 0;
-}
-
-.header h1 {
-  flex-grow: 1;
-  font-size: 22px;
-  color: #2c3e50;
-  margin: 0;
-  text-align: left;
-}
-
+/* Container principal para o formulário */
 .form-container {
-  max-width: 960px;
-  width: 100%;
-  margin: 0 auto;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    font-size: 32px;
 }
 
 h2 {
-  background: #3498db;
-  color: white;
-  padding: 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 30px;
-  font-size: 18px;
+    background: #3498db;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 18px;
 }
 
 .section {
-  margin-bottom: 20px;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .accordion-item {
-  background: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  border-left: 4px solid #3498db;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #2980b9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .accordion-header {
-  background: #ecf0f1;
-  padding: 12px 16px;
-  cursor: pointer;
-  font-weight: bold;
-  border-radius: 8px 8px 0 0;
-  transition: background 0.3s;
+    background: #ecf0f1;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+    transition: background 0.3s;
 }
 
 .accordion-header:hover {
-  background: #dfe6e9;
+    background: #dfe6e9;
 }
 
 .accordion-body {
-  display: none;
-  padding: 16px;
-  border-top: 1px solid #ccc;
+    display: none;
+    padding: 16px;
+    border-top: 1px solid #ccc;
 }
 
+/* Estilos de inputs e campos do formulário */
 label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 600;
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
 }
 
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  background: #fff;
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: #fff;
+    transition: border-color 0.3s ease;
 }
 
 textarea {
-  resize: vertical;
-  min-height: 60px;
+    resize: vertical;
+    min-height: 60px;
 }
 
 .add-action {
-  background: #2980b9;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 15px;
-  font-size: 14px;
-  transition: background 0.3s;
+    background: #2980b9;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+    transition: background 0.3s;
 }
 
 .add-action:hover {
-  background: #21618c;
+    background: #21618c;
 }
 
 #generate-pdf {
-  background: #27ae60;
-  display: block;
-  margin: 40px auto 0;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 8px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s;
+    background: #27ae60;
+    display: block;
+    margin: 40px auto 0;
+    padding: 14px 28px;
+    font-size: 16px;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
 #generate-pdf:hover {
-  background: #1e8449;
+    background: #1e8449;
 }
 
 .masked-currency {
-  text-align: left;
+    text-align: left;
 }
 
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .section {
+        padding: 15px;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 12px;
+    }
+
+    .add-action,
+    #generate-pdf {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+/* Ajustes para a impressão */
 @media print {
-  .accordion-header {
-    font-size: 16px;
-    background: none;
-    border: none;
-    font-weight: bold;
-    padding: 8px 0;
-    color: #1a5276;
-    margin-top: 20px;
-  }
+    .accordion-header {
+        font-size: 16px;
+        background: none;
+        border: none;
+        font-weight: bold;
+        padding: 8px 0;
+        color: #1a5276;
+        margin-top: 20px;
+    }
 
-  .accordion-body {
-    display: block !important;
-    padding: 0;
-  }
+    .accordion-body {
+        display: block !important;
+        padding: 0;
+    }
 
-  button, .add-action {
-    display: none !important;
-  }
+    button,
+    .add-action {
+        display: none !important;
+    }
 
-  .accordion-item {
-    border: none;
-    border-bottom: 2px dashed #999;
-    box-shadow: none;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-  }
+    .accordion-item {
+        border: none;
+        border-bottom: 2px dashed #999;
+        box-shadow: none;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+    }
 
-  label {
-    font-weight: bold;
-  }
+    label {
+        font-weight: bold;
+    }
 
-  input, textarea, select {
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
+    input,
+    textarea,
+    select {
+        border: none;
+        background: transparent;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
 
-  h2 {
-    font-size: 20px;
-    color: #1a5276;
-    margin-top: 30px;
-  }
+    h2 {
+        font-size: 20px;
+        color: #1a5276;
+        margin-top: 30px;
+    }
 }
