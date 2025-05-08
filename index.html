@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Plano de Ação - Programa Especial de Saúde do Rio Doce</title>
-  <link href="style.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.7/inputmask.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/script.js" defer></script>
 </head>
 <body>
   <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="section">
-    <h2 onclick="toggleAccordion('eixo2')">Eixo 2 – Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
+    <h2 onclick="toggleAccordion('eixo2')">Eixo 2 - Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde</h2>
     <div class="accordion" id="eixo2"></div>
     <button class="add-action" onclick="addAction('eixo2')">Adicionar nova ação</button>
   </div>
@@ -50,25 +50,23 @@
   </div>
 
   <div class="section">
-    <h2 onclick="toggleAccordion('eixo4')">Eixo 4 – Melhoria das práticas de gestão em saúde</h2>
+    <h2 onclick="toggleAccordion('eixo4')">Eixo 4 - Melhoria das práticas de gestão em saúde</h2>
     <div class="accordion" id="eixo4"></div>
     <button class="add-action" onclick="addAction('eixo4')">Adicionar nova ação</button>
   </div>
 
   <div class="section">
-    <h2 onclick="toggleAccordion('eixo5')">Eixo 5 – Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
+    <h2 onclick="toggleAccordion('eixo5')">Eixo 5 - Ações de inteligência e ciências de dados e serviços de saúde digital</h2>
     <div class="accordion" id="eixo5"></div>
     <button class="add-action" onclick="addAction('eixo5')">Adicionar nova ação</button>
   </div>
 
   <div class="section">
-    <h2 onclick="toggleAccordion('eixo6')">Eixo 6 – Formação e educação permanente</h2>
+    <h2 onclick="toggleAccordion('eixo6')">Eixo 6 - Formação e educação permanente</h2>
     <div class="accordion" id="eixo6"></div>
     <button class="add-action" onclick="addAction('eixo6')">Adicionar nova ação</button>
   </div>
 
   <button id="generate-pdf" onclick="generatePDF()">Gerar PDF</button>
-
-  <script src="script.js"></script>
 </body>
 </html>
