@@ -1,13 +1,13 @@
 /* Variáveis para cores e espaçamentos */
 :root {
-  --cor-primaria: #3c5269;
-  --cor-secundaria: #5b738a;
-  --cor-sucesso: #2e7d32;
-  --cor-sucesso-hover: #1b5e20;
-  --cor-excluir: #c0392b;
-  --cor-excluir-hover: #922b21;
-  --cor-texto: #2f2f2f;
-  --cor-fundo: #f7f9fb;
+  --cor-primaria: #4a6885;
+  --cor-secundaria: #6a8fb4;
+  --cor-sucesso: #43a047;
+  --cor-sucesso-hover: #2e7d32;
+  --cor-excluir: #d32f2f;
+  --cor-excluir-hover: #9a0007;
+  --cor-texto: #2e2e2e;
+  --cor-fundo: #f2f6fa;
   --font-padrao: 'Inter', sans-serif;
   --borda-radius: 8px;
   --sombra: 0 1px 3px rgba(0, 0, 0, 0.05);
