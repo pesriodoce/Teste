@@ -131,7 +131,6 @@ function addAction(eixoId) {
     window.scrollTo({ top: offset, behavior: 'smooth' });
   }, 100);
 }
-
 function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p', 'pt', 'a4');
@@ -160,9 +159,14 @@ function generatePDF() {
   };
 
   const addFieldPair = (label, value) => {
-    addText(label, { bold: true, spacingBefore: 12, spacingAfter: 4 });
-    const lines = doc.splitTextToSize(value || 'Não preenchido', 480);
-    lines.forEach(line => {
+    const labelFontSize = 12;
+    const valueFontSize = 12;
+
+    // Nome do campo
+    doc.setFont('Helvetica', 'bold');
+    doc.setFontSize(labelFontSize);
+    const labelLines = doc.splitTextToSize(label || '', 480);
+    labelLines.forEach(line => {
       doc.text(line, 60, y);
       y += 16;
       if (y > 770) {
@@ -170,7 +174,21 @@ function generatePDF() {
         y = 60;
       }
     });
-    y += 4;
+
+    // Valor do campo
+    doc.setFont('Helvetica', 'normal');
+    doc.setFontSize(valueFontSize);
+    const valueLines = doc.splitTextToSize(value || 'Não preenchido', 480);
+    valueLines.forEach(line => {
+      doc.text(line, 60, y);
+      y += 16;
+      if (y > 770) {
+        doc.addPage();
+        y = 60;
+      }
+    });
+
+    y += 8;
   };
 
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", {
