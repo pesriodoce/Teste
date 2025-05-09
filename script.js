@@ -181,6 +181,7 @@ function generatePDF() {
   const win = window.open();
   win.document.write(`<html><head><title>PDF</title></head><body>${content}</body></html>`);
   win.document.close();
+  win.print();
 }
 
 const eixos = [
