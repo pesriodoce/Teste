@@ -110,6 +110,9 @@ function addAction(eixoId) {
   salvarBtn.className = 'add-action';
   salvarBtn.onclick = () => {
     if (body) body.style.display = "none";
+    const heading = eixo.previousElementSibling;
+    const offset = heading.getBoundingClientRect().top + window.scrollY - 20;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
   };
   body.appendChild(salvarBtn);
 
@@ -125,22 +128,26 @@ function addAction(eixoId) {
 function generatePDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF('p', 'pt', 'a4');
-  let y = 40;
+  let y = 60;
 
   const addText = (text, { bold = false, size = 12, spacing = 16 } = {}) => {
     doc.setFont('Helvetica', bold ? 'bold' : 'normal');
     doc.setFontSize(size);
-    doc.text(text, 40, y);
-    y += spacing;
-    if (y > 770) {
-      doc.addPage();
-      y = 40;
-    }
+    const lines = doc.splitTextToSize(text, 480); // largura da área de texto
+    lines.forEach(line => {
+      doc.text(line, 60, y);
+      y += spacing;
+      if (y > 770) {
+        doc.addPage();
+        y = 60;
+      }
+    });
   };
 
   const addDivider = () => {
+    y += 10;
     doc.setDrawColor(200);
-    doc.line(40, y, 555, y);
+    doc.line(60, y, 540, y);
     y += 10;
   };
 
@@ -159,9 +166,9 @@ function generatePDF() {
   addText("Perfil epidemiológico: " + (document.querySelector('#perfil-epidemiologico')?.value || ''));
   addText("Estrutura da rede: " + (document.querySelector('#estrutura-rede')?.value || ''));
 
-  doc.addPage(); // força início em nova página
-  y = 40;
-  
+  doc.addPage(); // separa eixos em nova página
+  y = 60;
+
   document.querySelectorAll('.section').forEach(section => {
     const title = section.querySelector('h2')?.textContent;
     const actions = section.querySelectorAll('.accordion-item');
