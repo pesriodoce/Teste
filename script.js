@@ -116,7 +116,8 @@ function addAction(eixoId) {
   toggleAccordion(newId);
 
   setTimeout(() => {
-    const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
+    const heading = eixo.previousElementSibling;
+    const offset = heading.getBoundingClientRect().top + window.scrollY - 20;
     window.scrollTo({ top: offset, behavior: 'smooth' });
   }, 100);
 }
@@ -158,6 +159,9 @@ function generatePDF() {
   addText("Perfil epidemiológico: " + (document.querySelector('#perfil-epidemiologico')?.value || ''));
   addText("Estrutura da rede: " + (document.querySelector('#estrutura-rede')?.value || ''));
 
+  doc.addPage(); // força início em nova página
+  y = 40;
+  
   document.querySelectorAll('.section').forEach(section => {
     const title = section.querySelector('h2')?.textContent;
     const actions = section.querySelectorAll('.accordion-item');
