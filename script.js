@@ -1,14 +1,12 @@
 // ====== Dados de municípios ======
 const municipios = {
-  MG: ["Aimorés", "Alpercata", /* ... demais cidades ... */ "Tumiritinga"],
-  ES: ["Anchieta", "Aracruz", /* ... */ "Sooretama"],
+  MG: ["Aimorés", "Alpercata", "Tumiritinga"],
+  ES: ["Anchieta", "Aracruz", "Sooretama"],
   DF: ["Brasília"]
 };
 
-// ====== Contador global de ações ======
 let actionCount = 0;
 
-// ====== Funções utilitárias ======
 function updateMunicipios(uf) {
   const select = document.getElementById("municipio-select");
   select.innerHTML = "";
@@ -33,26 +31,31 @@ function removeAction(button) {
   item.remove();
 }
 
-// ====== Função principal: adiciona nova ação ======
+function createCurrencyMask(input) {
+  input.addEventListener('input', function () {
+    let value = this.value.replace(/\D/g, '');
+    value = (parseInt(value, 10) / 100).toFixed(2).toString();
+    value = value.replace('.', ',');
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    this.value = value ? 'R$ ' + value : '';
+  });
+}
+
 function addAction(eixoId) {
-  // Fecha todas as ações abertas
   document.querySelectorAll('.accordion-body').forEach(body => {
     body.style.display = 'none';
   });
 
-  // Incrementa o contador e prepara IDs
   actionCount++;
   const eixo = document.getElementById(eixoId);
   const newId = `acao${eixoId}_${actionCount}`;
 
-  // Cria o container da nova ação
   const newAction = document.createElement('div');
   newAction.classList.add('accordion-item');
 
-  // HTML interno da ação
   newAction.innerHTML = `
-    <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
-    <div class="accordion-body" id="${newId}">
+    <div class="accordion-header" onclick="toggleAccordion('${newId}')" aria-expanded="true" aria-controls="${newId}">Nova Ação</div>
+    <div class="accordion-body" id="${newId}" role="region">
       <label>Identificação do Problema:</label>
       <textarea></textarea>
 
@@ -94,37 +97,33 @@ function addAction(eixoId) {
     </div>
   `;
 
-  // Anexa ao DOM
   eixo.appendChild(newAction);
 
-  // Atualiza cabeçalho com o valor de "Nome da ação"
   const nomeInput = newAction.querySelector('.nome-acao');
   const header = newAction.querySelector('.accordion-header');
   nomeInput.addEventListener('input', () => {
     header.innerText = nomeInput.value || 'Nova Ação';
   });
 
-  // Máscara de moeda brasileira (R$ 1.234,56)
-  const inputBudget = document.getElementById(`budget-${newId}`);
-  inputBudget.addEventListener('input', function () {
-    let value = this.value.replace(/\D/g, '');
-    value = (parseInt(value, 10) / 100).toFixed(2).toString();
-    value = value.replace('.', ',');
-    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    this.value = value ? 'R$ ' + value : '';
-  });
+  createCurrencyMask(document.getElementById(`budget-${newId}`));
 
-  // Botão "Salvar ação" que retrai o formulário
   const body = newAction.querySelector('.accordion-body');
   const salvarBtn = document.createElement('button');
   salvarBtn.innerText = 'Salvar ação';
   salvarBtn.className = 'add-action';
   salvarBtn.onclick = () => {
     body.style.display = 'none';
+    const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
   };
   body.appendChild(salvarBtn);
 
-  // Abre a nova ação e ajusta rolagem
+  const excluirBtn = document.createElement('button');
+  excluirBtn.innerText = 'Excluir ação';
+  excluirBtn.className = 'remove-action';
+  excluirBtn.onclick = () => removeAction(excluirBtn);
+  body.appendChild(excluirBtn);
+
   toggleAccordion(newId);
   setTimeout(() => {
     const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
@@ -132,7 +131,6 @@ function addAction(eixoId) {
   }, 100);
 }
 
-// ====== Geração dinâmica dos eixos ======
 function setupEixos() {
   const eixos = [
     "Fortalecimento e ampliação dos serviços de Atenção à Saúde",
@@ -154,7 +152,6 @@ function setupEixos() {
   });
 }
 
-// ====== Botão de geração de PDF ======
 function generatePDF() {
   const date = new Date().toLocaleDateString();
   let content = `<h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>`;
@@ -165,8 +162,7 @@ function generatePDF() {
     const actions = section.querySelectorAll('.accordion-item');
     actions.forEach(item => {
       const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-      content += `<div style="border:1px solid #ccc;padding:10px;margin-bottom:16px;">
-        <h3>${header}</h3><ul>`;
+      content += `<div style="border:1px solid #ccc;padding:10px;margin-bottom:16px;"><h3>${header}</h3><ul>`;
       item.querySelectorAll('label').forEach(label => {
         const field = label.nextElementSibling;
         const value = field?.value || field?.textContent || 'Não preenchido';
@@ -183,7 +179,6 @@ function generatePDF() {
   win.print();
 }
 
-// ====== Inicialização ======
 document.addEventListener("DOMContentLoaded", () => {
   setupEixos();
 });
