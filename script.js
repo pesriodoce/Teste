@@ -124,10 +124,10 @@ function generatePDF() {
   const date = new Date().toLocaleDateString();
   let content = `
     <style>
-      body { font-family: 'Inter', sans-serif; color: #2e2e2e; padding: 20px; }
-      h1 { color: #4a6885; text-align: center; font-size: 24px; margin-bottom: 30px; }
-      h2 { color: #2c3e50; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-top: 30px; }
-      h3 { margin-top: 20px; color: #4a6885; }
+      body { font-family: 'Arial', sans-serif; color: #2e2e2e; padding: 20px; }
+      h1 { color: #2e4053; text-align: center; font-size: 22px; margin-bottom: 24px; font-weight: 500; }
+      h2 { color: #34495e; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-top: 28px; font-weight: 500; }
+      h3 { margin-top: 16px; color: #2e4053; font-weight: 500; }
       ul { padding-left: 18px; }
       li { margin-bottom: 8px; line-height: 1.5; }
       footer { font-size: 12px; text-align: center; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; color: #777; }
@@ -181,7 +181,6 @@ function generatePDF() {
   const win = window.open();
   win.document.write(`<html><head><title>PDF</title></head><body>${content}</body></html>`);
   win.document.close();
-  win.print();
 }
 
 const eixos = [
