@@ -29,6 +29,7 @@ function removeAction(button) {
 }
 
 function addAction(eixoId) {
+  // Fecha outras ações
   document.querySelectorAll('.accordion-body').forEach(body => {
     body.style.display = 'none';
   });
@@ -85,20 +86,24 @@ function addAction(eixoId) {
 
   eixo.appendChild(newAction);
 
+  // Atualiza cabeçalho com nome da ação
   const nomeInput = newAction.querySelector('.nome-acao');
   const header = newAction.querySelector('.accordion-header');
   nomeInput.addEventListener('input', () => {
     header.innerText = nomeInput.value || 'Nova Ação';
   });
 
+  // Máscara de moeda em formato brasileiro
   const inputBudget = document.getElementById(`budget-${newId}`);
   inputBudget.addEventListener('input', function () {
     let value = inputBudget.value.replace(/\D/g, '');
-    value = value.replace(/(\d)(\d{2})$/, '$1,$2');
-    value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
+    value = (parseInt(value, 10) / 100).toFixed(2).toString();
+    value = value.replace('.', ',');
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     inputBudget.value = value ? 'R$ ' + value : '';
   });
 
+  // Botão para salvar e retrair a ação
   const body = newAction.querySelector('.accordion-body');
   const salvarBtn = document.createElement('button');
   salvarBtn.innerText = 'Salvar ação';
@@ -108,8 +113,10 @@ function addAction(eixoId) {
   };
   body.appendChild(salvarBtn);
 
+  // Abrir nova ação
   toggleAccordion(newId);
 
+  // Rolagem ajustada para mostrar o título do eixo também
   setTimeout(() => {
     const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
     window.scrollTo({ top: offset, behavior: 'smooth' });
