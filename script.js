@@ -29,32 +29,93 @@ function removeAction(button) {
 }
 
 function addAction(eixoId) {
+  document.querySelectorAll('.accordion-body').forEach(body => {
+    body.style.display = 'none';
+  });
+
+  actionCount++;
   const eixo = document.getElementById(eixoId);
-  const actionId = `acao-${Date.now()}`;
-  const wrapper = document.createElement("div");
-  wrapper.className = "accordion-item";
-  wrapper.innerHTML = `
-    <div class="accordion-header" onclick="toggleAccordion('${actionId}')" id="header-${actionId}">Nova Ação</div>
-    <div class="accordion-body" id="${actionId}">
+  const newId = `acao${eixoId}_${actionCount}`;
+  const newAction = document.createElement('div');
+  newAction.classList.add('accordion-item');
+
+  newAction.innerHTML = `
+    <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
+    <div class="accordion-body" id="${newId}">
+      <label>Identificação do Problema:</label>
+      <textarea></textarea>
+
       <label>Nome da ação:</label>
-      <input type="text" oninput="document.getElementById('header-${actionId}').textContent = this.value || 'Nova Ação'">
-      <label>Identificação do Problema:</label><textarea></textarea>
-      <label>Descrição da ação:</label><textarea></textarea>
-      <label>Objetivos:</label><textarea></textarea>
-      <label>Itens previstos:</label><input type="text">
-      <label>Tipo da Ação:</label><select><option>Investimento</option><option>Custeio</option></select>
-      <label>Orçamento previsto:</label><input type="text" class="masked-currency">
-      <label>Data de início:</label><input type="date">
-      <label>Data de conclusão:</label><input type="date">
-      <label>Indicador:</label><input type="text">
-      <label>Meta:</label><input type="text">
-      <label>Observações:</label><textarea></textarea>
-      <button class="remove-action" onclick="removeAction(this)">Remover ação</button>
-    </div>`;
-  eixo.appendChild(wrapper);
-  toggleAccordion(actionId);
-  setTimeout(() => eixo.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      <input type="text" class="nome-acao">
+
+      <label>Descrição da ação:</label>
+      <textarea></textarea>
+
+      <label>Objetivos:</label>
+      <textarea></textarea>
+
+      <label>Itens previstos:</label>
+      <input type="text">
+
+      <label>Tipo da Ação:</label>
+      <select>
+        <option>Investimento</option>
+        <option>Custeio</option>
+      </select>
+
+      <label>Orçamento previsto:</label>
+      <input type="text" class="masked-currency" id="budget-${newId}">
+
+      <label>Data de início:</label>
+      <input type="date">
+
+      <label>Data de conclusão:</label>
+      <input type="date">
+
+      <label>Indicador:</label>
+      <input type="text">
+
+      <label>Meta:</label>
+      <input type="text">
+
+      <label>Observações:</label>
+      <textarea></textarea>
+    </div>
+  `;
+
+  eixo.appendChild(newAction);
+
+  const nomeInput = newAction.querySelector('.nome-acao');
+  const header = newAction.querySelector('.accordion-header');
+  nomeInput.addEventListener('input', () => {
+    header.innerText = nomeInput.value || 'Nova Ação';
+  });
+
+  const inputBudget = document.getElementById(`budget-${newId}`);
+  inputBudget.addEventListener('input', function () {
+    let value = inputBudget.value.replace(/\D/g, '');
+    value = value.replace(/(\d)(\d{2})$/, '$1,$2');
+    value = value.replace(/(?=(\d{3})+(\D))\B/g, '.');
+    inputBudget.value = value ? 'R$ ' + value : '';
+  });
+
+  const body = newAction.querySelector('.accordion-body');
+  const salvarBtn = document.createElement('button');
+  salvarBtn.innerText = 'Salvar ação';
+  salvarBtn.className = 'add-action';
+  salvarBtn.onclick = () => {
+    body.style.display = 'none';
+  };
+  body.appendChild(salvarBtn);
+
+  toggleAccordion(newId);
+
+  setTimeout(() => {
+    const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  }, 100);
 }
+
 
 function generatePDF() {
   const date = new Date().toLocaleDateString();
