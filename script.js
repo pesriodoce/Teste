@@ -4,6 +4,8 @@ const municipios = {
   DF: ["Brasília"]
 };
 
+let actionCount = 0;
+
 function updateMunicipios(uf) {
   const select = document.getElementById("municipio-select");
   select.innerHTML = "";
