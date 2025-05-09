@@ -107,7 +107,7 @@ function addAction(eixoId) {
   salvarBtn.innerText = 'Salvar ação';
   salvarBtn.className = 'add-action';
   salvarBtn.onclick = () => {
-    body.style.display = 'none';
+    toggleAccordion(newId); // Simula clique no acordeon
   };
   body.appendChild(salvarBtn);
 
@@ -125,15 +125,30 @@ function generatePDF() {
   let y = 40;
 
   const addText = (text, options = {}) => {
-    const { bold = false, size = 12, spacing = 16 } = options;
+    const { bold = false, size = 12, spacing = 16, indent = 0 } = options;
     doc.setFont('Helvetica', bold ? 'bold' : 'normal');
     doc.setFontSize(size);
-    doc.text(text, 40, y);
+    doc.text(text, 40 + indent, y);
     y += spacing;
     if (y > 750) {
       doc.addPage();
       y = 40;
     }
+  };
+
+  const addDivider = () => {
+    doc.setDrawColor(180);
+    doc.line(40, y, 555, y);
+    y += 10;
+  };
+
+  const addBox = (callback) => {
+    const startY = y;
+    callback();
+    doc.setDrawColor(220);
+    doc.setFillColor(245, 245, 245);
+    doc.rect(35, startY - 6, 540, y - startY + 16, 'F');
+    y += 10;
   };
 
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", { bold: true, size: 14, spacing: 24 });
@@ -143,20 +158,24 @@ function generatePDF() {
   const uf = document.querySelector('#uf')?.value || '';
   const municipio = document.querySelector('#municipio-select')?.value || '';
 
-  addText("Informações Iniciais", { bold: true, spacing: 20 });
-  addText("Responsável: " + nome);
-  addText("Cargo: " + cargo);
-  addText("UF: " + uf);
-  addText("Município: " + municipio);
+  addText("Informações Iniciais", { bold: true, spacing: 18 });
+  addBox(() => {
+    addText("Responsável: " + nome);
+    addText("Cargo: " + cargo);
+    addText("UF: " + uf);
+    addText("Município: " + municipio);
+  });
 
   const socio = document.querySelector('#perfil-socio')?.value || '';
   const epid = document.querySelector('#perfil-epidemiologico')?.value || '';
   const estrutura = document.querySelector('#estrutura-rede')?.value || '';
 
-  addText("Diagnóstico Situacional de Saúde", { bold: true, spacing: 20 });
-  addText("Perfil socioeconômico: " + socio);
-  addText("Perfil epidemiológico: " + epid);
-  addText("Estrutura da rede de saúde: " + estrutura);
+  addText("Diagnóstico Situacional de Saúde", { bold: true, spacing: 18 });
+  addBox(() => {
+    addText("Perfil socioeconômico: " + socio);
+    addText("Perfil epidemiológico: " + epid);
+    addText("Estrutura da rede de saúde: " + estrutura);
+  });
 
   document.querySelectorAll('.section').forEach(section => {
     const title = section.querySelector('h2')?.textContent;
@@ -165,18 +184,22 @@ function generatePDF() {
       addText(title, { bold: true, spacing: 20 });
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        addText("• " + header, { bold: true });
-        item.querySelectorAll('label').forEach(label => {
-          const field = label.nextElementSibling;
-          const value = field?.value || field?.textContent || 'Não preenchido';
-          addText(label.textContent + ": " + value);
+        addBox(() => {
+          addText("Ação: " + header, { bold: true });
+          item.querySelectorAll('label').forEach(label => {
+            const field = label.nextElementSibling;
+            const value = field?.value || field?.textContent || 'Não preenchido';
+            addText(label.textContent + ": " + value, { indent: 10 });
+          });
         });
-        y += 10;
       });
     }
   });
 
-  doc.output('dataurlnewwindow'); // 🔥 abre nova aba com PDF
+  addDivider();
+  addText("Emitido em " + new Date().toLocaleDateString(), { size: 10 });
+
+  doc.output('dataurlnewwindow');
 }
 
 const eixos = [
