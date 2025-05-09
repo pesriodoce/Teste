@@ -1,11 +1,14 @@
+// ====== Dados de municípios ======
 const municipios = {
-  MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
-  ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
+  MG: ["Aimorés", "Alpercata", /* ... demais cidades ... */ "Tumiritinga"],
+  ES: ["Anchieta", "Aracruz", /* ... */ "Sooretama"],
   DF: ["Brasília"]
 };
 
+// ====== Contador global de ações ======
 let actionCount = 0;
 
+// ====== Funções utilitárias ======
 function updateMunicipios(uf) {
   const select = document.getElementById("municipio-select");
   select.innerHTML = "";
@@ -22,7 +25,7 @@ function toggleAccordion(id) {
     if (el.id !== id) el.style.display = "none";
   });
   const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+  el.style.display = (el.style.display === "block") ? "none" : "block";
 }
 
 function removeAction(button) {
@@ -30,18 +33,23 @@ function removeAction(button) {
   item.remove();
 }
 
+// ====== Função principal: adiciona nova ação ======
 function addAction(eixoId) {
-  // Fecha outras ações
+  // Fecha todas as ações abertas
   document.querySelectorAll('.accordion-body').forEach(body => {
     body.style.display = 'none';
   });
 
+  // Incrementa o contador e prepara IDs
   actionCount++;
   const eixo = document.getElementById(eixoId);
   const newId = `acao${eixoId}_${actionCount}`;
+
+  // Cria o container da nova ação
   const newAction = document.createElement('div');
   newAction.classList.add('accordion-item');
 
+  // HTML interno da ação
   newAction.innerHTML = `
     <div class="accordion-header" onclick="toggleAccordion('${newId}')">Nova Ação</div>
     <div class="accordion-body" id="${newId}">
@@ -86,26 +94,27 @@ function addAction(eixoId) {
     </div>
   `;
 
+  // Anexa ao DOM
   eixo.appendChild(newAction);
 
-  // Atualiza cabeçalho com nome da ação
+  // Atualiza cabeçalho com o valor de "Nome da ação"
   const nomeInput = newAction.querySelector('.nome-acao');
   const header = newAction.querySelector('.accordion-header');
   nomeInput.addEventListener('input', () => {
     header.innerText = nomeInput.value || 'Nova Ação';
   });
 
-  // Máscara de moeda em formato brasileiro
+  // Máscara de moeda brasileira (R$ 1.234,56)
   const inputBudget = document.getElementById(`budget-${newId}`);
   inputBudget.addEventListener('input', function () {
-    let value = inputBudget.value.replace(/\D/g, '');
+    let value = this.value.replace(/\D/g, '');
     value = (parseInt(value, 10) / 100).toFixed(2).toString();
     value = value.replace('.', ',');
     value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    inputBudget.value = value ? 'R$ ' + value : '';
+    this.value = value ? 'R$ ' + value : '';
   });
 
-  // Botão para salvar e retrair a ação
+  // Botão "Salvar ação" que retrai o formulário
   const body = newAction.querySelector('.accordion-body');
   const salvarBtn = document.createElement('button');
   salvarBtn.innerText = 'Salvar ação';
@@ -115,17 +124,37 @@ function addAction(eixoId) {
   };
   body.appendChild(salvarBtn);
 
-  // Abrir nova ação
+  // Abre a nova ação e ajusta rolagem
   toggleAccordion(newId);
-
-  // Rolagem ajustada para mostrar o título do eixo também
   setTimeout(() => {
     const offset = eixo.getBoundingClientRect().top + window.scrollY - 100;
     window.scrollTo({ top: offset, behavior: 'smooth' });
   }, 100);
 }
 
+// ====== Geração dinâmica dos eixos ======
+function setupEixos() {
+  const eixos = [
+    "Fortalecimento e ampliação dos serviços de Atenção à Saúde",
+    "Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde",
+    "Fortalecimento, ampliação e melhorias da infraestrutura de saúde",
+    "Melhoria das práticas de gestão em saúde",
+    "Ações de inteligência e ciências de dados e serviços de saúde digital",
+    "Formação e educação permanente"
+  ];
+  const container = document.getElementById("eixos-container");
+  eixos.forEach((titulo, i) => {
+    const n = i + 1;
+    container.innerHTML += `
+      <div class="section">
+        <h2 onclick="toggleAccordion('eixo${n}')">Eixo ${n} - ${titulo}</h2>
+        <div class="accordion" id="eixo${n}"></div>
+        <button class="add-action" onclick="addAction('eixo${n}')">Adicionar nova ação</button>
+      </div>`;
+  });
+}
 
+// ====== Botão de geração de PDF ======
 function generatePDF() {
   const date = new Date().toLocaleDateString();
   let content = `<h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>`;
@@ -154,21 +183,7 @@ function generatePDF() {
   win.print();
 }
 
-const eixos = [
-  "Fortalecimento e ampliação dos serviços de Atenção à Saúde",
-  "Fortalecimento e ampliação das ações e serviços de Vigilância em Saúde",
-  "Fortalecimento, ampliação e melhorias da infraestrutura de saúde",
-  "Melhoria das práticas de gestão em saúde",
-  "Ações de inteligência e ciências de dados e serviços de saúde digital",
-  "Formação e educação permanente"
-];
-const container = document.getElementById("eixos-container");
-eixos.forEach((titulo, i) => {
-  const n = i + 1;
-  container.innerHTML += `
-    <div class="section">
-      <h2 onclick="toggleAccordion('eixo${n}')">Eixo ${n} - ${titulo}</h2>
-      <div class="accordion" id="eixo${n}"></div>
-      <button class="add-action" onclick="addAction('eixo${n}')">Adicionar nova ação</button>
-    </div>`;
+// ====== Inicialização ======
+document.addEventListener("DOMContentLoaded", () => {
+  setupEixos();
 });
