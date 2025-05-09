@@ -4,7 +4,7 @@ const municipios = {
   DF: ["Brasília"]
 };
 
-window.actionCount = window.actionCount || 0;
+window.actionCount = 0;
 
 function updateMunicipios(uf) {
   const select = document.getElementById("municipio-select");
@@ -22,7 +22,9 @@ function toggleAccordion(id) {
     if (el.id !== id) el.style.display = "none";
   });
   const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+  if (el) {
+    el.style.display = el.style.display === "block" ? "none" : "block";
+  }
 }
 
 function removeAction(button) {
@@ -107,7 +109,7 @@ function addAction(eixoId) {
   salvarBtn.innerText = 'Salvar ação';
   salvarBtn.className = 'add-action';
   salvarBtn.onclick = () => {
-    toggleAccordion(newId); // Simula clique no acordeon
+    if (body) body.style.display = "none";
   };
   body.appendChild(salvarBtn);
 
@@ -124,81 +126,58 @@ function generatePDF() {
   const doc = new jsPDF('p', 'pt', 'a4');
   let y = 40;
 
-  const addText = (text, options = {}) => {
-    const { bold = false, size = 12, spacing = 16, indent = 0 } = options;
+  const addText = (text, { bold = false, size = 12, spacing = 16 } = {}) => {
     doc.setFont('Helvetica', bold ? 'bold' : 'normal');
     doc.setFontSize(size);
-    doc.text(text, 40 + indent, y);
+    doc.text(text, 40, y);
     y += spacing;
-    if (y > 750) {
+    if (y > 770) {
       doc.addPage();
       y = 40;
     }
   };
 
   const addDivider = () => {
-    doc.setDrawColor(180);
+    doc.setDrawColor(200);
     doc.line(40, y, 555, y);
-    y += 10;
-  };
-
-  const addBox = (callback) => {
-    const startY = y;
-    callback();
-    doc.setDrawColor(220);
-    doc.setFillColor(245, 245, 245);
-    doc.rect(35, startY - 6, 540, y - startY + 16, 'F');
     y += 10;
   };
 
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", { bold: true, size: 14, spacing: 24 });
 
-  const nome = document.querySelector('#responsavel')?.value || '';
-  const cargo = document.querySelector('#cargo')?.value || '';
-  const uf = document.querySelector('#uf')?.value || '';
-  const municipio = document.querySelector('#municipio-select')?.value || '';
+  addText("Informações Iniciais", { bold: true });
+  addDivider();
+  addText("Responsável: " + (document.querySelector('#responsavel')?.value || ''));
+  addText("Cargo: " + (document.querySelector('#cargo')?.value || ''));
+  addText("UF: " + (document.querySelector('#uf')?.value || ''));
+  addText("Município: " + (document.querySelector('#municipio-select')?.value || ''));
 
-  addText("Informações Iniciais", { bold: true, spacing: 18 });
-  addBox(() => {
-    addText("Responsável: " + nome);
-    addText("Cargo: " + cargo);
-    addText("UF: " + uf);
-    addText("Município: " + municipio);
-  });
-
-  const socio = document.querySelector('#perfil-socio')?.value || '';
-  const epid = document.querySelector('#perfil-epidemiologico')?.value || '';
-  const estrutura = document.querySelector('#estrutura-rede')?.value || '';
-
-  addText("Diagnóstico Situacional de Saúde", { bold: true, spacing: 18 });
-  addBox(() => {
-    addText("Perfil socioeconômico: " + socio);
-    addText("Perfil epidemiológico: " + epid);
-    addText("Estrutura da rede de saúde: " + estrutura);
-  });
+  addText("Diagnóstico Situacional", { bold: true, spacing: 24 });
+  addDivider();
+  addText("Perfil socioeconômico: " + (document.querySelector('#perfil-socio')?.value || ''));
+  addText("Perfil epidemiológico: " + (document.querySelector('#perfil-epidemiologico')?.value || ''));
+  addText("Estrutura da rede: " + (document.querySelector('#estrutura-rede')?.value || ''));
 
   document.querySelectorAll('.section').forEach(section => {
     const title = section.querySelector('h2')?.textContent;
     const actions = section.querySelectorAll('.accordion-item');
     if (actions.length > 0) {
-      addText(title, { bold: true, spacing: 20 });
+      addText(title, { bold: true, spacing: 30 });
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        addBox(() => {
-          addText("Ação: " + header, { bold: true });
-          item.querySelectorAll('label').forEach(label => {
-            const field = label.nextElementSibling;
-            const value = field?.value || field?.textContent || 'Não preenchido';
-            addText(label.textContent + ": " + value, { indent: 10 });
-          });
+        addText("• " + header, { bold: true });
+        item.querySelectorAll('label').forEach(label => {
+          const field = label.nextElementSibling;
+          const value = field?.value || field?.textContent || 'Não preenchido';
+          addText(label.textContent + ": " + value);
         });
+        y += 10;
       });
     }
   });
 
   addDivider();
-  addText("Emitido em " + new Date().toLocaleDateString(), { size: 10 });
-
+  addText("Emitido em: " + new Date().toLocaleDateString(), { size: 10 });
   doc.output('dataurlnewwindow');
 }
 
