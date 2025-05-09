@@ -139,13 +139,14 @@ function generatePDF() {
   const doc = new jsPDF('p', 'pt', 'a4');
   let y = 60;
 
-  const addText = (text, { bold = false, size = 12, spacing = 16 } = {}) => {
+  const addText = (text, { bold = false, size = 12, spacingBefore = 0, spacingAfter = 16 } = {}) => {
+    y += spacingBefore;
     doc.setFont('Helvetica', bold ? 'bold' : 'normal');
     doc.setFontSize(size);
     const lines = doc.splitTextToSize(text, 480);
     lines.forEach(line => {
       doc.text(line, 60, y);
-      y += spacing;
+      y += spacingAfter;
       if (y > 770) {
         doc.addPage();
         y = 60;
@@ -154,31 +155,48 @@ function generatePDF() {
   };
 
   const addDivider = () => {
-    y += 10;
-    doc.setDrawColor(200);
+    y += 12;
+    doc.setDrawColor(180);
     doc.line(60, y, 540, y);
-    y += 10;
+    y += 12;
   };
 
-  addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", { bold: true, size: 14, spacing: 24 });
+  addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", {
+    bold: true,
+    size: 14,
+    spacingBefore: 0,
+    spacingAfter: 30
+  });
 
-  y += 20;
-  addText("Informações Iniciais", { bold: true, spacing: 10 });
   addDivider();
+  addText("Informações Iniciais", {
+    bold: true,
+    size: 12,
+    spacingBefore: 10,
+    spacingAfter: 10
+  });
+
   addText("Responsável: " + (document.querySelector('#responsavel')?.value || ''));
   addText("Cargo: " + (document.querySelector('#cargo')?.value || ''));
   addText("UF: " + (document.querySelector('#uf')?.value || ''));
   addText("Município: " + (document.querySelector('#municipio-select')?.value || ''));
 
-  y += 20;
-  addText("Diagnóstico Situacional", { bold: true, spacing: 10 });
   addDivider();
-  addText("Perfil socioeconômico:", { bold: true });
-  addText(document.querySelector('#perfil-socio')?.value || '', { spacing: 18 });
-  addText("Perfil epidemiológico:", { bold: true });
-  addText(document.querySelector('#perfil-epidemiologico')?.value || '', { spacing: 18 });
-  addText("Estrutura da rede:", { bold: true });
-  addText(document.querySelector('#estrutura-rede')?.value || '', { spacing: 18 });
+  addText("Diagnóstico Situacional", {
+    bold: true,
+    size: 12,
+    spacingBefore: 30,
+    spacingAfter: 10
+  });
+
+  addText("Perfil socioeconômico:", { bold: true, spacingBefore: 12 });
+  addText(document.querySelector('#perfil-socio')?.value || '', { spacingAfter: 18 });
+
+  addText("Perfil epidemiológico:", { bold: true, spacingBefore: 12 });
+  addText(document.querySelector('#perfil-epidemiologico')?.value || '', { spacingAfter: 18 });
+
+  addText("Estrutura da rede:", { bold: true, spacingBefore: 12 });
+  addText(document.querySelector('#estrutura-rede')?.value || '', { spacingAfter: 18 });
 
   doc.addPage();
   y = 60;
@@ -187,26 +205,33 @@ function generatePDF() {
     const title = section.querySelector('h2')?.textContent;
     const actions = section.querySelectorAll('.accordion-item');
     if (actions.length > 0) {
-      addText(title, { bold: true, spacing: 30 });
+      addDivider();
+      addText(title, {
+        bold: true,
+        size: 12,
+        spacingBefore: 30,
+        spacingAfter: 12
+      });
+
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        addText("• " + header, { bold: true });
+        addText("• " + header, { bold: true, spacingBefore: 20, spacingAfter: 10 });
+
         item.querySelectorAll('label').forEach(label => {
           const field = label.nextElementSibling;
+          const labelText = label.textContent?.replace(/:$/, '') || '';
           const value = field?.value || field?.textContent || 'Não preenchido';
-          addText(label.textContent + ":", { bold: true });
-          addText(value);
+          addText(labelText, { bold: true, spacingBefore: 8, spacingAfter: 4 });
+          addText(value, { spacingAfter: 10 });
         });
-        y += 8;
-        doc.setDrawColor(220);
-        doc.line(60, y, 540, y);
-        y += 12;
+
+        y += 10; // leve espaço após cada ação
       });
     }
   });
 
   addDivider();
-  addText("Emitido em: " + new Date().toLocaleDateString(), { size: 10 });
+  addText("Emitido em: " + new Date().toLocaleDateString(), { size: 10, spacingBefore: 20 });
   doc.output('dataurlnewwindow');
 }
 
