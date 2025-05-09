@@ -215,7 +215,7 @@ function generatePDF() {
     bold: true,
     size: 14,
     spacingBefore: 10,
-    spacingAfter: 12
+    spacingAfter: 24
   });
 
   addFieldPair("Perfil socioeconômico", document.querySelector('#perfil-socio')?.value);
@@ -239,7 +239,7 @@ function generatePDF() {
 
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        addText("• " + header, { bold: true, spacingBefore: 18, spacingAfter: 10 });
+        addText("• " + header, { bold: true, spacingBefore: 18, spacingAfter: 18 });
 
         item.querySelectorAll('label').forEach(label => {
           const field = label.nextElementSibling;
