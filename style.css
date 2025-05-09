@@ -8,6 +8,7 @@ body {
   font-family: 'Inter', sans-serif;
   background: #f4f7fa;
   color: #333;
+  margin: 0;
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -78,7 +79,9 @@ label {
   font-weight: 600;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   padding: 10px;
   margin-top: 6px;
@@ -93,7 +96,16 @@ textarea {
   min-height: 60px;
 }
 
+.masked-currency {
+  text-align: left;
+}
+
+button {
+  margin-top: 10px;
+}
+
 .add-action,
+.save-action,
 .remove-action {
   background: #2980b9;
   color: white;
@@ -101,11 +113,12 @@ textarea {
   padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
-  margin-top: 15px;
   font-size: 14px;
+  margin-right: 8px;
 }
 
 .add-action:hover,
+.save-action:hover,
 .remove-action:hover {
   background: #21618c;
 }
@@ -127,10 +140,6 @@ textarea {
   background: #1e8449;
 }
 
-.masked-currency {
-  text-align: left;
-}
-
 @media print {
   .accordion-header {
     font-size: 16px;
@@ -147,9 +156,7 @@ textarea {
     padding: 0;
   }
 
-  button,
-  .add-action,
-  .remove-action {
+  button, .add-action, .save-action, .remove-action {
     display: none !important;
   }
 
@@ -165,9 +172,7 @@ textarea {
     font-weight: bold;
   }
 
-  input,
-  textarea,
-  select {
+  input, textarea, select {
     border: none;
     background: transparent;
     font-size: 14px;
@@ -178,13 +183,5 @@ textarea {
     font-size: 20px;
     color: #1a5276;
     margin-top: 30px;
-  }
-
-  footer {
-    font-size: 12px;
-    text-align: center;
-    margin-top: 40px;
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
   }
 }
