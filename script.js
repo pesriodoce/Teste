@@ -221,8 +221,9 @@ function generatePDF() {
           const labelText = label.textContent?.replace(/:$/, '') || '';
           const value = field?.value || field?.textContent || 'Não preenchido';
 
-          addText(labelText, { bold: true, spacingBefore: 10, spacingAfter: 4 });
-          addText(value, { spacingAfter: 12 });
+          addText(labelText, { bold: true, spacingBefore: 14, spacingAfter: 6 });
+          addText(value, { spacingBefore: 0, spacingAfter: 18 });
+
         });
 
         y += 10; // leve espaço após cada ação
