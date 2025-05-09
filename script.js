@@ -101,7 +101,6 @@ function addAction(eixoId) {
 
   const body = newAction.querySelector('.accordion-body');
 
-  // Botão Salvar
   const salvarBtn = document.createElement('button');
   salvarBtn.innerText = 'Salvar ação';
   salvarBtn.className = 'add-action';
@@ -113,7 +112,6 @@ function addAction(eixoId) {
   };
   body.appendChild(salvarBtn);
 
-  // Botão Excluir
   const excluirBtn = document.createElement('button');
   excluirBtn.innerText = 'Excluir ação';
   excluirBtn.className = 'remove-action';
@@ -161,6 +159,20 @@ function generatePDF() {
     y += 12;
   };
 
+  const addFieldPair = (label, value) => {
+    addText(label, { bold: true, spacingBefore: 12, spacingAfter: 4 });
+    const lines = doc.splitTextToSize(value || 'Não preenchido', 480);
+    lines.forEach(line => {
+      doc.text(line, 60, y);
+      y += 16;
+      if (y > 770) {
+        doc.addPage();
+        y = 60;
+      }
+    });
+    y += 4;
+  };
+
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", {
     bold: true,
     size: 14,
@@ -175,10 +187,10 @@ function generatePDF() {
     spacingAfter: 20
   });
 
-  addText("Responsável: " + (document.querySelector('#responsavel')?.value || ''));
-  addText("Cargo: " + (document.querySelector('#cargo')?.value || ''));
-  addText("UF: " + (document.querySelector('#uf')?.value || ''));
-  addText("Município: " + (document.querySelector('#municipio-select')?.value || ''));
+  addFieldPair("Responsável", document.querySelector('#responsavel')?.value);
+  addFieldPair("Cargo", document.querySelector('#cargo')?.value);
+  addFieldPair("UF", document.querySelector('#uf')?.value);
+  addFieldPair("Município", document.querySelector('#municipio-select')?.value);
 
   addDivider();
   addText("Diagnóstico Situacional", {
@@ -188,14 +200,9 @@ function generatePDF() {
     spacingAfter: 12
   });
 
-  addText("Perfil socioeconômico:", { bold: true, spacingBefore: 10 });
-  addText(document.querySelector('#perfil-socio')?.value || '', { spacingAfter: 18 });
-
-  addText("Perfil epidemiológico:", { bold: true, spacingBefore: 10 });
-  addText(document.querySelector('#perfil-epidemiologico')?.value || '', { spacingAfter: 18 });
-
-  addText("Estrutura da rede:", { bold: true, spacingBefore: 10 });
-  addText(document.querySelector('#estrutura-rede')?.value || '', { spacingAfter: 18 });
+  addFieldPair("Perfil socioeconômico", document.querySelector('#perfil-socio')?.value);
+  addFieldPair("Perfil epidemiológico", document.querySelector('#perfil-epidemiologico')?.value);
+  addFieldPair("Estrutura da rede", document.querySelector('#estrutura-rede')?.value);
 
   doc.addPage();
   y = 60;
@@ -220,13 +227,10 @@ function generatePDF() {
           const field = label.nextElementSibling;
           const labelText = label.textContent?.replace(/:$/, '') || '';
           const value = field?.value || field?.textContent || 'Não preenchido';
-
-          addText(labelText, { bold: true, spacingBefore: 14, spacingAfter: 6 });
-          addText(value, { spacingBefore: 0, spacingAfter: 18 });
-
+          addFieldPair(labelText, value);
         });
 
-        y += 10; // leve espaço após cada ação
+        y += 10;
       });
     }
   });
