@@ -4,7 +4,6 @@ const municipios = {
   DF: ["Brasília"]
 };
 
-// ✅ Garante que actionCount não cause erro de redefinição
 window.actionCount = window.actionCount || 0;
 
 function updateMunicipios(uf) {
@@ -121,67 +120,63 @@ function addAction(eixoId) {
 }
 
 function generatePDF() {
-  const date = new Date().toLocaleDateString();
-  let content = `
-    <style>
-      body { font-family: 'Arial', sans-serif; color: #2e2e2e; padding: 20px; }
-      h1 { color: #2e4053; text-align: center; font-size: 22px; margin-bottom: 24px; font-weight: 500; }
-      h2 { color: #34495e; border-bottom: 1px solid #ccc; padding-bottom: 6px; margin-top: 28px; font-weight: 500; }
-      h3 { margin-top: 16px; color: #2e4053; font-weight: 500; }
-      ul { padding-left: 18px; }
-      li { margin-bottom: 8px; line-height: 1.5; }
-      footer { font-size: 12px; text-align: center; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px; color: #777; }
-      .block { margin-bottom: 20px; padding: 12px; border: 1px solid #ccc; border-radius: 6px; background: #f9f9f9; }
-    </style>
-    <h1>Plano de Ação - Programa Especial de Saúde do Rio Doce</h1>`;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'pt', 'a4');
+  let y = 40;
+
+  const addText = (text, options = {}) => {
+    const { bold = false, size = 12, spacing = 16 } = options;
+    doc.setFont('Helvetica', bold ? 'bold' : 'normal');
+    doc.setFontSize(size);
+    doc.text(text, 40, y);
+    y += spacing;
+    if (y > 750) {
+      doc.addPage();
+      y = 40;
+    }
+  };
+
+  addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", { bold: true, size: 14, spacing: 24 });
 
   const nome = document.querySelector('#responsavel')?.value || '';
   const cargo = document.querySelector('#cargo')?.value || '';
   const uf = document.querySelector('#uf')?.value || '';
   const municipio = document.querySelector('#municipio-select')?.value || '';
-  content += `
-    <h2>Informações Iniciais</h2>
-    <ul>
-      <li><strong>Responsável:</strong> ${nome}</li>
-      <li><strong>Cargo:</strong> ${cargo}</li>
-      <li><strong>UF:</strong> ${uf}</li>
-      <li><strong>Município:</strong> ${municipio}</li>
-    </ul>`;
+
+  addText("Informações Iniciais", { bold: true, spacing: 20 });
+  addText("Responsável: " + nome);
+  addText("Cargo: " + cargo);
+  addText("UF: " + uf);
+  addText("Município: " + municipio);
 
   const socio = document.querySelector('#perfil-socio')?.value || '';
   const epid = document.querySelector('#perfil-epidemiologico')?.value || '';
   const estrutura = document.querySelector('#estrutura-rede')?.value || '';
-  content += `
-    <h2>Diagnóstico Situacional de Saúde</h2>
-    <div class="block">
-      <p><strong>Perfil socioeconômico:</strong> ${socio}</p>
-      <p><strong>Perfil epidemiológico:</strong> ${epid}</p>
-      <p><strong>Estrutura da rede de saúde:</strong> ${estrutura}</p>
-    </div>`;
+
+  addText("Diagnóstico Situacional de Saúde", { bold: true, spacing: 20 });
+  addText("Perfil socioeconômico: " + socio);
+  addText("Perfil epidemiológico: " + epid);
+  addText("Estrutura da rede de saúde: " + estrutura);
 
   document.querySelectorAll('.section').forEach(section => {
     const title = section.querySelector('h2')?.textContent;
     const actions = section.querySelectorAll('.accordion-item');
     if (actions.length > 0) {
-      content += `<h2>${title}</h2>`;
+      addText(title, { bold: true, spacing: 20 });
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        content += `<div class="block"><h3>${header}</h3><ul>`;
+        addText("• " + header, { bold: true });
         item.querySelectorAll('label').forEach(label => {
           const field = label.nextElementSibling;
           const value = field?.value || field?.textContent || 'Não preenchido';
-          content += `<li><strong>${label.textContent}</strong>: ${value}</li>`;
+          addText(label.textContent + ": " + value);
         });
-        content += `</ul></div>`;
+        y += 10;
       });
     }
   });
 
-  content += `<footer>Emitido em ${date} — Programa Especial de Saúde do Rio Doce</footer>`;
-  const win = window.open();
-  win.document.write(`<html><head><title>PDF</title></head><body>${content}</body></html>`);
-  win.document.close();
-  win.print();
+  doc.output('dataurlnewwindow'); // 🔥 abre nova aba com PDF
 }
 
 const eixos = [
