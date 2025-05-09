@@ -27,11 +27,6 @@ function toggleAccordion(id) {
   }
 }
 
-function removeAction(button) {
-  const item = button.closest('.accordion-item');
-  item.remove();
-}
-
 function addAction(eixoId) {
   document.querySelectorAll('.accordion-body').forEach(body => {
     body.style.display = 'none';
@@ -105,6 +100,8 @@ function addAction(eixoId) {
   });
 
   const body = newAction.querySelector('.accordion-body');
+
+  // Botão Salvar
   const salvarBtn = document.createElement('button');
   salvarBtn.innerText = 'Salvar ação';
   salvarBtn.className = 'add-action';
@@ -115,6 +112,18 @@ function addAction(eixoId) {
     window.scrollTo({ top: offset, behavior: 'smooth' });
   };
   body.appendChild(salvarBtn);
+
+  // Botão Excluir
+  const excluirBtn = document.createElement('button');
+  excluirBtn.innerText = 'Excluir ação';
+  excluirBtn.className = 'remove-action';
+  excluirBtn.onclick = () => {
+    newAction.remove();
+    const heading = eixo.previousElementSibling;
+    const offset = heading.getBoundingClientRect().top + window.scrollY - 20;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  };
+  body.appendChild(excluirBtn);
 
   toggleAccordion(newId);
 
@@ -133,7 +142,7 @@ function generatePDF() {
   const addText = (text, { bold = false, size = 12, spacing = 16 } = {}) => {
     doc.setFont('Helvetica', bold ? 'bold' : 'normal');
     doc.setFontSize(size);
-    const lines = doc.splitTextToSize(text, 480); // largura da área de texto
+    const lines = doc.splitTextToSize(text, 480);
     lines.forEach(line => {
       doc.text(line, 60, y);
       y += spacing;
@@ -153,20 +162,25 @@ function generatePDF() {
 
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", { bold: true, size: 14, spacing: 24 });
 
-  addText("Informações Iniciais", { bold: true });
+  y += 20;
+  addText("Informações Iniciais", { bold: true, spacing: 10 });
   addDivider();
   addText("Responsável: " + (document.querySelector('#responsavel')?.value || ''));
   addText("Cargo: " + (document.querySelector('#cargo')?.value || ''));
   addText("UF: " + (document.querySelector('#uf')?.value || ''));
   addText("Município: " + (document.querySelector('#municipio-select')?.value || ''));
 
-  addText("Diagnóstico Situacional", { bold: true, spacing: 24 });
+  y += 20;
+  addText("Diagnóstico Situacional", { bold: true, spacing: 10 });
   addDivider();
-  addText("Perfil socioeconômico: " + (document.querySelector('#perfil-socio')?.value || ''));
-  addText("Perfil epidemiológico: " + (document.querySelector('#perfil-epidemiologico')?.value || ''));
-  addText("Estrutura da rede: " + (document.querySelector('#estrutura-rede')?.value || ''));
+  addText("Perfil socioeconômico:", { bold: true });
+  addText(document.querySelector('#perfil-socio')?.value || '', { spacing: 18 });
+  addText("Perfil epidemiológico:", { bold: true });
+  addText(document.querySelector('#perfil-epidemiologico')?.value || '', { spacing: 18 });
+  addText("Estrutura da rede:", { bold: true });
+  addText(document.querySelector('#estrutura-rede')?.value || '', { spacing: 18 });
 
-  doc.addPage(); // separa eixos em nova página
+  doc.addPage();
   y = 60;
 
   document.querySelectorAll('.section').forEach(section => {
@@ -180,9 +194,13 @@ function generatePDF() {
         item.querySelectorAll('label').forEach(label => {
           const field = label.nextElementSibling;
           const value = field?.value || field?.textContent || 'Não preenchido';
-          addText(label.textContent + ": " + value);
+          addText(label.textContent + ":", { bold: true });
+          addText(value);
         });
-        y += 10;
+        y += 8;
+        doc.setDrawColor(220);
+        doc.line(60, y, 540, y);
+        y += 12;
       });
     }
   });
