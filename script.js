@@ -164,16 +164,15 @@ function generatePDF() {
   addText("Plano de Ação - Programa Especial de Saúde do Rio Doce", {
     bold: true,
     size: 14,
-    spacingBefore: 0,
     spacingAfter: 30
   });
 
   addDivider();
   addText("Informações Iniciais", {
     bold: true,
-    size: 12,
+    size: 14,
     spacingBefore: 10,
-    spacingAfter: 10
+    spacingAfter: 20
   });
 
   addText("Responsável: " + (document.querySelector('#responsavel')?.value || ''));
@@ -184,18 +183,18 @@ function generatePDF() {
   addDivider();
   addText("Diagnóstico Situacional", {
     bold: true,
-    size: 12,
-    spacingBefore: 30,
-    spacingAfter: 10
+    size: 14,
+    spacingBefore: 10,
+    spacingAfter: 12
   });
 
-  addText("Perfil socioeconômico:", { bold: true, spacingBefore: 12 });
+  addText("Perfil socioeconômico:", { bold: true, spacingBefore: 10 });
   addText(document.querySelector('#perfil-socio')?.value || '', { spacingAfter: 18 });
 
-  addText("Perfil epidemiológico:", { bold: true, spacingBefore: 12 });
+  addText("Perfil epidemiológico:", { bold: true, spacingBefore: 10 });
   addText(document.querySelector('#perfil-epidemiologico')?.value || '', { spacingAfter: 18 });
 
-  addText("Estrutura da rede:", { bold: true, spacingBefore: 12 });
+  addText("Estrutura da rede:", { bold: true, spacingBefore: 10 });
   addText(document.querySelector('#estrutura-rede')?.value || '', { spacingAfter: 18 });
 
   doc.addPage();
@@ -208,21 +207,22 @@ function generatePDF() {
       addDivider();
       addText(title, {
         bold: true,
-        size: 12,
-        spacingBefore: 30,
+        size: 14,
+        spacingBefore: 20,
         spacingAfter: 12
       });
 
       actions.forEach(item => {
         const header = item.querySelector('.accordion-header')?.textContent || 'Ação';
-        addText("• " + header, { bold: true, spacingBefore: 20, spacingAfter: 10 });
+        addText("• " + header, { bold: true, spacingBefore: 18, spacingAfter: 10 });
 
         item.querySelectorAll('label').forEach(label => {
           const field = label.nextElementSibling;
           const labelText = label.textContent?.replace(/:$/, '') || '';
           const value = field?.value || field?.textContent || 'Não preenchido';
-          addText(labelText, { bold: true, spacingBefore: 8, spacingAfter: 4 });
-          addText(value, { spacingAfter: 10 });
+
+          addText(labelText, { bold: true, spacingBefore: 10, spacingAfter: 4 });
+          addText(value, { spacingAfter: 12 });
         });
 
         y += 10; // leve espaço após cada ação
