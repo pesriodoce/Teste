@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programa Especial de Saúde do Rio Doce</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      color: #0b3d91;
+    }
+
+    .btn {
+      background-color: #0b3d91;
+      color: white;
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #072d6f;
+    }
+
+    #uploadSection {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Plano de Ação Municipal – Programa Saúde Rio Doce</h1>
+
+  <button class="btn" onclick="abrirFormulario()">Preencher Plano de Ação Municipal</button>
+  <button class="btn" onclick="mostrarUpload()">Submeter formulário aprovado pelo Conselho Municipal de Saúde</button>
+
+  <div id="uploadSection">
+    <input type="file" id="arquivoPDF" accept="application/pdf" />
+    <br><br>
+    <button class="btn" onclick="enviarEmail()">Enviar</button>
+  </div>
+
+  <script>
+    function abrirFormulario() {
+      window.open("https://pesriodoce.github.io/Teste/", "_blank");
+    }
+
+    function mostrarUpload() {
+      document.getElementById("uploadSection").style.display = "block";
+    }
+
+    function enviarEmail() {
+      const arquivo = document.getElementById("arquivoPDF").files[0];
+
+      if (!arquivo) {
+        alert("Por favor, selecione um arquivo PDF para enviar.");
+        return;
+      }
+
+      alert("Este botão deveria enviar o arquivo para saude.riodoce@saude.gov.br, mas o envio de e-mail com anexo precisa ser feito por servidor ou integração com backend.");
+    }
+  </script>
+
+</body>
+</html>
