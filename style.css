@@ -313,3 +313,22 @@ textarea {
     padding-top: 10px;
   }
 }
+
+/* Adicione isto no FINAL do arquivo */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  display: none; /* Inicialmente escondido */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+#main-content[style*="display: block"] {
+  display: block !important; /* Sobrescreve qualquer estilo inline conflitante */
+}
