@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plano de Ação - Programa Especial de Saúde do Rio Doce</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <main class="form-container" role="main">
+    <h1>Plano de Ação do Programa Especial de Saúde do Rio Doce</h1>
+
+    <!-- INFORMAÇÕES INICIAIS -->
+    <section class="section" aria-labelledby="info-header">
+      <h2 id="info-header">Informações Iniciais</h2>
+      <label for="responsavel">Responsável pelo documento:</label>
+      <input type="text" name="nome" id="responsavel">
+
+      <label for="cargo">Cargo:</label>
+      <input type="text" name="cargo" id="cargo">
+
+      <label for="uf">Unidade da Federação:</label>
+      <select name="uf" id="uf" onchange="updateMunicipios(this.value)">
+        <option value="">Selecione</option>
+        <option value="DF">DF</option>
+        <option value="ES">ES</option>
+        <option value="MG">MG</option>
+      </select>
+
+      <label for="municipio-select">Município:</label>
+      <select name="municipio" id="municipio-select">
+        <option value="">Selecione a UF primeiro</option>
+      </select>
+    </section>
+
+    <!-- DIAGNÓSTICO SITUACIONAL -->
+    <section class="section" aria-labelledby="diag-header">
+      <h2 id="diag-header">Diagnóstico Situacional de Saúde</h2>
+
+      <label for="perfil-socio">Perfil socioeconômico, produtivo e demográfico do território:</label>
+      <textarea id="perfil-socio"></textarea>
+
+      <label for="perfil-epidemiologico">Perfil epidemiológico do território:</label>
+      <textarea id="perfil-epidemiologico"></textarea>
+
+      <label for="estrutura-rede">Estrutura da rede e serviços de saúde instalados e existentes no território:</label>
+      <textarea id="estrutura-rede"></textarea>
+    </section>
+
+    <!-- EIXOS DINÂMICOS -->
+    <section id="eixos-container"></section>
+
+    <!-- BOTÃO PDF -->
+    <button id="generate-pdf" onclick="generatePDF()">Gerar PDF</button>
+    <button onclick="window.location.href='https://pesriodoce.github.io/Teste/'">← Voltar</button>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
