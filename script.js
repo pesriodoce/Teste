@@ -33,7 +33,7 @@ const municipios = {
 };
 
 // Arquivo: codigos_municipios.js
-const municipios = {
+const municipiosAutorizados = {
     // Minas Gerais (MG + código IBGE)
     "MG310110": { nome: "AIMORÉS", senha: "PESRD2025" },
     "MG310180": { nome: "ALPERCATA", senha: "PESRD2025" },
