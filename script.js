@@ -1,22 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Esconde o dashboard inicialmente
   document.getElementById('main-content').style.display = 'none';
-  
-// Login
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const codigo = document.getElementById('codigo').value.trim().toUpperCase();
-  const senha = document.getElementById('senha').value;
-
-  if (municipiosAutorizados[codigo] && municipiosAutorizados[codigo].senha === senha) {
-    localStorage.setItem('municipioLogado', codigo);
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('main-content').style.display = 'block';
-    document.getElementById('municipio-logado').textContent = `Município: ${municipiosAutorizados[codigo].nome}`;
-  } else {
-    alert('Código ou senha inválidos!');
-  }
-});
 
 const municipios = {
   MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
@@ -25,7 +9,6 @@ const municipios = {
 };
 
 // Dados de login
-// Arquivo: codigos_municipios.js
 const municipiosAutorizados = {
     // Minas Gerais (MG + código IBGE)
     "MG310110": { nome: "AIMORÉS", senha: "PESRD2025" },
@@ -83,12 +66,41 @@ const municipiosAutorizados = {
     // Distrito Federal (DF + código IBGE)
     "DF530010": { nome: "BRASÍLIA", senha: "PESRD2025" }
 };
+  
+  // Login
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const codigo = document.getElementById('codigo').value.trim().toUpperCase();
+    const senha = document.getElementById('senha').value;
+
+    console.log("Tentativa de login com:", codigo, senha); // Debug
+    
+    if (municipiosAutorizados[codigo]) {
+      if (municipiosAutorizados[codigo].senha === senha) {
+        // Login válido
+        localStorage.setItem('municipioLogado', codigo);
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        document.getElementById('municipio-logado').textContent = 
+          `Município: ${municipiosAutorizados[codigo].nome}`;
+        console.log("Login bem-sucedido!"); // Debug
+      } else {
+        alert('Senha incorreta!');
+      }
+    } else {
+      alert('Código de município não encontrado!');
+    }
+  });
+});
+
 
 // Logout (NÃO remove rascunhos)
 function logout() {
   localStorage.removeItem('municipioLogado');
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('main-content').style.display = 'none';
+  document.getElementById('codigo').value = '';
+  document.getElementById('senha').value = '';
 }
   
 window.actionCount = 0;
