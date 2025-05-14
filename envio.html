@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Enviar Plano Aprovado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="form-container">
+    <h1>Enviar Plano Aprovado</h1>
+    
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="pdfUpload" accept=".pdf" style="display: none;">
+      <label for="pdfUpload" class="upload-label">
+        <svg width="50" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <p>Clique para selecionar o PDF aprovado</p>
+        <small>O arquivo deve conter a anuência do Conselho Municipal de Saúde</small>
+      </label>
+      <p id="fileName"></p>
+    </div>
+
+    <button id="btn-enviar" disabled>Enviar para saude.riodoce@saude.gov.br</button>
+    <button class="btn-voltar" onclick="window.history.back()">Voltar ao Dashboard</button>
+  </main>
+
+  <script src="script-envio.js"></script>
+</body>
+</html>
