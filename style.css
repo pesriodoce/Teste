@@ -1,3 +1,4 @@
+/* Variáveis */
 :root {
   --cor-primaria: #4a6885;
   --cor-secundaria: #6a8fb4;
@@ -6,20 +7,22 @@
   --cor-texto: #2e2e2e;
   --cor-fundo: #f2f6fa;
   --borda-radius: 8px;
+  --sombra: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Reset e Estilos Gerais */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
+/* Layout Principal */
 body {
-  font-family: 'Inter', sans-serif;
   background: var(--cor-fundo);
   color: var(--cor-texto);
-  padding: 20px;
+  min-height: 100vh;
 }
 
 /* Login */
@@ -28,34 +31,52 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background: var(--cor-fundo);
+}
+
+.form-container {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--borda-radius);
+  box-shadow: var(--sombra);
+  width: 100%;
+  max-width: 500px;
 }
 
 /* Dashboard */
 .dashboard-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
+  display: none;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: var(--borda-radius);
+  box-shadow: var(--sombra);
 }
 
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin: 40px 0;
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
 
 .card {
   background: white;
   border-radius: var(--borda-radius);
-  padding: 25px;
+  padding: 1.5rem;
   cursor: pointer;
+  transition: all 0.3s ease;
   border-left: 4px solid var(--cor-secundaria);
-  transition: transform 0.3s;
+  box-shadow: var(--sombra);
 }
 
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
+/* [Adicione aqui os demais estilos específicos do formulário] */
 
 /* Upload */
 .upload-area {
