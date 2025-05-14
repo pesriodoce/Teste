@@ -12,27 +12,11 @@
   --sombra: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-:root {
-  --cor-primaria: #4a6885;
-  --cor-secundaria: #6a8fb4;
-  --cor-sucesso: #43a047;
-  --cor-excluir: #d32f2f;
-  --cor-texto: #2e2e2e;
-  --cor-fundo: #f2f6fa;
-  --borda-radius: 8px;
-}
-
 /* Reset e Estilos Gerais */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--cor-fundo);
-  color: var(--cor-texto);
 }
 
 /* Login */
