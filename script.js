@@ -1,3 +1,23 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Esconde o dashboard inicialmente
+  document.getElementById('main-content').style.display = 'none';
+  
+  // Login
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const codigo = document.getElementById('codigo').value.trim().toUpperCase();
+    const senha = document.getElementById('senha').value;
+
+    if (municipiosAutorizados[codigo] && municipiosAutorizados[codigo].senha === senha) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      document.getElementById('municipio-logado').textContent = `Município: ${municipiosAutorizados[codigo].nome}`;
+    } else {
+      alert('Código ou senha inválidos!');
+    }
+  });
+});
+
 // Dados de login
 const municipiosAutorizados = {
   "MG310110": { nome: "AIMORÉS", senha: "PESRD2025" },
@@ -23,7 +43,8 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 // Logout (NÃO remove rascunhos)
 function logout() {
   localStorage.removeItem('municipioLogado');
-  window.location.href = 'index.html';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'none';
 }
 
 const municipios = {
