@@ -32,6 +32,66 @@ const municipios = {
   DF: ["Brasília"]
 };
 
+// Arquivo: codigos_municipios.js
+const municipios = {
+    // Minas Gerais (MG + código IBGE)
+    "MG310110": { nome: "AIMORÉS", senha: "PESRD2025" },
+    "MG310180": { nome: "ALPERCATA", senha: "PESRD2025" },
+    "MG310570": { nome: "BARRA LONGA", senha: "PESRD2025" },
+    "MG310630": { nome: "BELO ORIENTE", senha: "PESRD2025" },
+    "MG310780": { nome: "BOM JESUS DO GALHO", senha: "PESRD2025" },
+    "MG310925": { nome: "BUGRE", senha: "PESRD2025" },
+    "MG311340": { nome: "CARATINGA", senha: "PESRD2025" },
+    "MG311840": { nome: "CONSELHEIRO PENA", senha: "PESRD2025" },
+    "MG311940": { nome: "CORONEL FABRICIANO", senha: "PESRD2025" },
+    "MG312000": { nome: "CÓRREGO NOVO", senha: "PESRD2025" },
+    "MG312180": { nome: "DIONÍSIO", senha: "PESRD2025" },
+    "MG312580": { nome: "FERNANDES TOURINHO", senha: "PESRD2025" },
+    "MG312730": { nome: "GALILÉIA", senha: "PESRD2025" },
+    "MG312770": { nome: "GOVERNADOR VALADARES", senha: "PESRD2025" },
+    "MG312930": { nome: "IAPU", senha: "PESRD2025" },
+    "MG313115": { nome: "IPABA", senha: "PESRD2025" },
+    "MG313130": { nome: "IPATINGA", senha: "PESRD2025" },
+    "MG313410": { nome: "ITUETA", senha: "PESRD2025" },
+    "MG314000": { nome: "MARIANA", senha: "PESRD2025" },
+    "MG314030": { nome: "MARLIÉRIA", senha: "PESRD2025" },
+    "MG314435": { nome: "NAQUE", senha: "PESRD2025" },
+    "MG314610": { nome: "OURO PRETO", senha: "PESRD2025" },
+    "MG314995": { nome: "PERIQUITO", senha: "PESRD2025" },
+    "MG315053": { nome: "PINGO-D'ÁGUA", senha: "PESRD2025" },
+    "MG315210": { nome: "PONTE NOVA", senha: "PESRD2025" },
+    "MG315400": { nome: "RAUL SOARES", senha: "PESRD2025" },
+    "MG315430": { nome: "RESPLENDOR", senha: "PESRD2025" },
+    "MG315490": { nome: "RIO CASCA", senha: "PESRD2025" },
+    "MG315500": { nome: "RIO DOCE", senha: "PESRD2025" },
+    "MG315740": { nome: "SANTA CRUZ DO ESCALVADO", senha: "PESRD2025" },
+    "MG315895": { nome: "SANTANA DO PARAÍSO", senha: "PESRD2025" },
+    "MG316100": { nome: "SÃO DOMINGOS DO PRATA", senha: "PESRD2025" },
+    "MG316340": { nome: "SÃO JOSÉ DO GOIABAL", senha: "PESRD2025" },
+    "MG316400": { nome: "SÃO PEDRO DOS FERROS", senha: "PESRD2025" },
+    "MG316556": { nome: "SEM-PEIXE", senha: "PESRD2025" },
+    "MG316770": { nome: "SOBRÁLIA", senha: "PESRD2025" },
+    "MG316870": { nome: "TIMÓTEO", senha: "PESRD2025" },
+    "MG316950": { nome: "TUMIRITINGA", senha: "PESRD2025" },
+    
+    // Espírito Santo (ES + código IBGE)
+    "ES320040": { nome: "ANCHIETA", senha: "PESRD2025" },
+    "ES320060": { nome: "ARACRUZ", senha: "PESRD2025" },
+    "ES320080": { nome: "BAIXO GUANDU", senha: "PESRD2025" },
+    "ES320150": { nome: "COLATINA", senha: "PESRD2025" },
+    "ES320160": { nome: "CONCEIÇÃO DA BARRA", senha: "PESRD2025" },
+    "ES320220": { nome: "FUNDÃO", senha: "PESRD2025" },
+    "ES320320": { nome: "LINHARES", senha: "PESRD2025" },
+    "ES320335": { nome: "MARILÂNDIA", senha: "PESRD2025" },
+    "ES320490": { nome: "SÃO MATEUS", senha: "PESRD2025" },
+    "ES320500": { nome: "SERRA", senha: "PESRD2025" },
+    "ES320501": { nome: "SOORETAMA", senha: "PESRD2025" },
+
+    // Distrito Federal (DF + código IBGE)
+    "DF530010": { nome: "BRASÍLIA", senha: "PESRD2025" }
+};
+
+
 window.actionCount = 0;
 
 function updateMunicipios(uf) {
