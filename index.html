@@ -8,21 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<script>
-  // Debug: Verifica se o script principal carregou
-  console.log("Script carregado - Versão 1.1");
-  
-  // Debug: Verifica elementos críticos
-  window.onload = function() {
-    console.log("Elementos:", {
-      form: document.getElementById('loginForm'),
-      codigo: document.getElementById('codigo'),
-      senha: document.getElementById('senha')
-    });
-  };
-</script>  
 <body>
-  <!-- Tela de Login (SEMPRE visível inicialmente) -->
+  <!-- Tela de Login -->
   <div id="login-screen" class="login-container">
     <div class="form-container">
       <h1>Acesso ao Sistema</h1>
@@ -38,29 +25,28 @@
     </div>
   </div>
 
-<!-- Dashboard (após login) -->
-<main class="dashboard-container" id="main-content" style="display: none;">
-  <header>
-    <h1>Programa Especial de Saúde do Rio Doce</h1>
-    <p id="municipio-logado" style="text-align: center; margin: 20px 0;"></p>
-  </header>
+  <!-- Dashboard -->
+  <main class="dashboard-container" id="main-content">
+    <header>
+      <h1>Programa Especial de Saúde do Rio Doce</h1>
+      <p id="municipio-logado"></p>
+    </header>
 
-  <div class="card-container">
-    <div class="card" onclick="window.location.href='formulario.html'">
-      <h2>Preencher Plano de Ação</h2>
-      <p>Elaborar ou editar o plano municipal</p>
+    <div class="card-container">
+      <div class="card" onclick="window.location.href='formulario.html'">
+        <h2>Preencher Plano de Ação</h2>
+        <p>Elaborar ou editar o plano municipal</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='envio.html'">
+        <h2>Enviar Plano Aprovado</h2>
+        <p>Upload do PDF com anuência do CMS</p>
+      </div>
     </div>
 
-    <div class="card" onclick="window.location.href='envio.html'">
-      <h2>Enviar Plano à Câmara Técnica</h2>
-      <p>Upload do PDF com anuência do CMS</p>
-    </div>
-  </div>
+    <button class="btn-sair" onclick="logout()">Sair</button>
+  </main>
 
-  <button class="btn-sair" onclick="logout()">Sair</button>
-</main>
-
-  <!-- Script no FINAL do body -->
   <script src="script.js"></script>
 </body>
 </html>
