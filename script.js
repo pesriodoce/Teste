@@ -2,28 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Esconde o dashboard inicialmente
   document.getElementById('main-content').style.display = 'none';
   
-  // Login
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const codigo = document.getElementById('codigo').value.trim().toUpperCase();
-    const senha = document.getElementById('senha').value;
-
-    if (municipiosAutorizados[codigo] && municipiosAutorizados[codigo].senha === senha) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-      document.getElementById('municipio-logado').textContent = `Município: ${municipiosAutorizados[codigo].nome}`;
-    } else {
-      alert('Código ou senha inválidos!');
-    }
-  });
-});
-
-// Dados de login
-const municipiosAutorizados = {
-  "MG310110": { nome: "AIMORÉS", senha: "PESRD2025" },
-  // Adicione todos os 49 municípios aqui
-};
-
 // Login
 document.getElementById('loginForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -40,19 +18,13 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
   }
 });
 
-// Logout (NÃO remove rascunhos)
-function logout() {
-  localStorage.removeItem('municipioLogado');
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('main-content').style.display = 'none';
-}
-
 const municipios = {
   MG: ["Aimorés", "Alpercata", "Barra Longa", "Belo Oriente", "Bom Jesus do Galho", "Bugre", "Caratinga", "Conselheiro Pena", "Coronel Fabriciano", "Córrego Novo", "Dionísio", "Fernandes Tourinho", "Galiléia", "Governador Valadares", "Iapu", "Ipaba", "Ipatinga", "Itueta", "Mariana", "Marliéria", "Naque", "Ouro Preto", "Periquito", "Pingo D’água", "Ponte Nova", "Raul Soares", "Resplendor", "Rio Casca", "Rio Doce", "Santa Cruz do Escalvado", "Santana do Paraíso", "São Domingos do Prata", "São José do Goiabal", "São Pedro dos Ferros", "Sem Peixe", "Sobrália", "Timóteo", "Tumiritinga"],
   ES: ["Anchieta", "Aracruz", "Baixo Guandu", "Colatina", "Conceição da Barra", "Fundão", "Linhares", "Marilândia", "São Mateus", "Serra", "Sooretama"],
   DF: ["Brasília"]
 };
 
+// Dados de login
 // Arquivo: codigos_municipios.js
 const municipiosAutorizados = {
     // Minas Gerais (MG + código IBGE)
@@ -112,7 +84,13 @@ const municipiosAutorizados = {
     "DF530010": { nome: "BRASÍLIA", senha: "PESRD2025" }
 };
 
-
+// Logout (NÃO remove rascunhos)
+function logout() {
+  localStorage.removeItem('municipioLogado');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'none';
+}
+  
 window.actionCount = 0;
 
 function updateMunicipios(uf) {
