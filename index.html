@@ -38,10 +38,27 @@
     </div>
   </div>
 
-  <!-- Dashboard (SEM display:none inicial) -->
-  <main class="dashboard-container" id="main-content">
-    <!-- Conteúdo do dashboard -->
-  </main>
+<!-- Dashboard (após login) -->
+<main class="dashboard-container" id="main-content" style="display: none;">
+  <header>
+    <h1>Programa Especial de Saúde do Rio Doce</h1>
+    <p id="municipio-logado" style="text-align: center; margin: 20px 0;"></p>
+  </header>
+
+  <div class="card-container">
+    <div class="card" onclick="window.location.href='formulario.html'">
+      <h2>Preencher Plano de Ação</h2>
+      <p>Elaborar ou editar o plano municipal</p>
+    </div>
+
+    <div class="card" onclick="window.location.href='envio.html'">
+      <h2>Enviar Plano à Câmara Técnica</h2>
+      <p>Upload do PDF com anuência do CMS</p>
+    </div>
+  </div>
+
+  <button class="btn-sair" onclick="logout()">Sair</button>
+</main>
 
   <!-- Script no FINAL do body -->
   <script src="script.js"></script>
