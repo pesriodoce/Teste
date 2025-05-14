@@ -8,6 +8,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+<script>
+  // Debug: Verifica se o script principal carregou
+  console.log("Script carregado - Versão 1.1");
+  
+  // Debug: Verifica elementos críticos
+  window.onload = function() {
+    console.log("Elementos:", {
+      form: document.getElementById('loginForm'),
+      codigo: document.getElementById('codigo'),
+      senha: document.getElementById('senha')
+    });
+  };
+</script>  
 <body>
   <!-- Tela de Login (SEMPRE visível inicialmente) -->
   <div id="login-screen" class="login-container">
