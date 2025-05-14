@@ -2,14 +2,10 @@
   --cor-primaria: #4a6885;
   --cor-secundaria: #6a8fb4;
   --cor-sucesso: #43a047;
-  --cor-sucesso-hover: #2e7d32;
   --cor-excluir: #d32f2f;
-  --cor-excluir-hover: #9a0007;
   --cor-texto: #2e2e2e;
   --cor-fundo: #f2f6fa;
-  --font-padrao: 'Inter', sans-serif;
   --borda-radius: 8px;
-  --sombra: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Reset e Estilos Gerais */
@@ -17,6 +13,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  padding: 20px;
 }
 
 /* Login */
@@ -98,15 +101,6 @@
 }
 
 /* [Adicione aqui os estilos do seu formulário original] */
-
-body {
-  font-family: var(--font-padrao);
-  background: var(--cor-fundo);
-  color: var(--cor-texto);
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-}
 
 .form-container {
   max-width: 1100px;
